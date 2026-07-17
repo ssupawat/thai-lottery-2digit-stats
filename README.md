@@ -1,30 +1,30 @@
 # thai-lottery-2digit-stats
 
-PWA for Thai government lottery 2-digit stats. No backend (browser + GitHub Action only).
+สถิติเลขท้าย 2 ตัว (สลากกินแบ่งรัฐบาล) แบบ PWA
 
-## Features
+อ้างอิงข้อมูลจาก [heart/Data-Set-Thai-Lotto](https://github.com/heart/Data-Set-Thai-Lotto)
 
-- All 100 two-digit numbers sorted by frequency (default) or by number (toggle)
-- Filter by year range: 5 / 10 / 20 years — computed client-side from `draws.json`
-- Search box — type 2 digits and scroll to that row with highlight
-- Tap any number to see the actual draw dates within the selected range
-- "Most frequent" / "Never drawn" chips update automatically for the selected range
-- Installable on mobile (manifest + 3 icon sizes + apple-touch-icon)
-- Offline support (service worker with stale-while-revalidate caching)
-- Auto-updates data daily via GitHub Action polling the official GLO API
+## ฟีเจอร์
 
-**Not included**: push notifications (requires a server to store subscriptions — conflicts with the no-backend requirement).
+- เลขท้าย 2 ตัวครบ 100 เลข เรียงตามความถี่ (default) หรือตามเลข (toggle)
+- ปรับช่วงปีย้อนหลังได้จริง: 5 / 10 / 20 ปี — คำนวณสดฝั่ง browser จาก `draws.json`
+- ช่องค้นเลข — พิมพ์ 2 หลักแล้วเลื่อนไปหา + ไฮไลต์แถวนั้น
+- แตะเลขไหนก็ได้ → ดูวันที่จริงที่เลขนั้นเคยออก ในช่วงปีที่เลือกอยู่
+- Chip "ออกบ่อยสุด" / "ไม่เคยออกเลย" ปรับตามช่วงปีที่เลือกอัตโนมัติ
+- ติดตั้งขึ้นหน้าจอมือถือได้จริง (manifest + icon 3 ขนาด + apple-touch-icon)
+- ใช้งาน offline ได้ (service worker, cache แบบ stale-while-revalidate)
+- อัปเดตข้อมูลเองทุกวันผ่าน GitHub Action (ดึงจาก API ของ GLO โดยตรง)
 
-## Data (`draws.json`)
+## ข้อมูล (`draws.json`)
 
-466 draws from 30 Dec 2006 to 16 Jul 2026:
+466 งวดจริง ตั้งแต่ 30 ธ.ค. 2549 ถึงปัจจุบัน (16 ก.ค. 2569):
 
-| Period | Source | Verification |
+| ช่วง | แหล่งข้อมูล | ตรวจสอบแล้วยังไง |
 |---|---|---|
-| 2006–2024 | sanook.com (via CSV from [heart/Data-Set-Thai-Lotto](https://github.com/heart/Data-Set-Thai-Lotto)) | Frequency cross-checked against myhora.com 10-year stats — every number matches |
-| 2025–2026 | myhora.com (year pages: `result-2568.aspx`, `result-2569.aspx`) | Transcribed dates and numbers, cross-checked against the "count" table on the same page — every number matches |
+| 2549–2567 | sanook.com (ผ่าน CSV จาก [heart/Data-Set-Thai-Lotto](https://github.com/heart/Data-Set-Thai-Lotto)) | รวมความถี่ในช่วงที่ทับกัน แล้วเทียบกับสถิติ 10 ปีของ myhora.com — ตรงกันทุกเลข |
+| 2568–2569 | myhora.com (ทีละปี: `result-2568.aspx`, `result-2569.aspx`) | ทรานสคริปต์วันที่/เลขที่ออก แล้วเทียบกับตาราง "จำนวนครั้ง" ที่หน้าเดียวกันสรุปไว้เอง — ตรงกันทุกเลข |
 
-File structure:
+โครงสร้างไฟล์:
 ```json
 {
   "updatedDisplay": "16 กรกฎาคม 2569",
@@ -32,7 +32,3 @@ File structure:
   "draws": [["2006-12-30","07"], ["2007-01-16","39"], ..., ["2026-07-16","71"]]
 }
 ```
-
-## Remaining
-
-- GitHub Action has not run yet. Trigger manually: Actions tab → "Update lottery draws" → "Run workflow". The `update_draws.py` script has been tested against the live GLO API and parses responses correctly.
