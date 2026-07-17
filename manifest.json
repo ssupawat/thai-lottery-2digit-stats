@@ -1,0 +1,18 @@
+{
+  "name": "สถิติเลขท้าย 2 ตัว",
+  "short_name": "เลขท้าย 2 ตัว",
+  "description": "ความถี่เลขท้าย 2 ตัว สลากกินแบ่งรัฐบาล ย้อนหลัง 10 ปี",
+  "start_url": "./index.html",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "background_color": "#FBEEF0",
+  "theme_color": "#C4425F",
+  "orientation": "portrait",
+  "lang": "th",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

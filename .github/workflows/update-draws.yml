@@ -1,0 +1,42 @@
+name: Update lottery draws
+
+# Runs daily rather than strictly on the 1st/16th, because the draw date
+# occasionally shifts by a day or two around holidays (visible in the
+# historical data -- e.g. 17 Jan, 2 May, 30 Dec instead of the usual
+# 1st/16th). Running daily and letting the script no-op on non-draw days
+# is more robust than trying to predict every shift.
+on:
+  schedule:
+    - cron: '0 11 * * *'   # 11:00 UTC = 18:00 Bangkok time, daily
+  workflow_dispatch: {}    # lets you trigger it by hand to test
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch latest draw
+        run: python scripts/update_draws.py
+
+      - name: Commit if draws.json changed
+        run: |
+          if git diff --quiet -- draws.json; then
+            echo "No changes to commit."
+          else
+            git config user.name "lottery-stats-bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add draws.json
+            git commit -m "Update draws.json ($(date -u +%Y-%m-%d))"
+            git push
+          fi

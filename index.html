@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>สถิติเลขท้าย 2 ตัว</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="theme-color" content="#4A6FA5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="เลขท้าย 2 ตัว">
+<style>
+  :root{
+    --paper:#4A6FA5; --paper-2:rgba(255,255,255,.14); --ink:#FFFFFF; --ink-soft:#D5E2F5;
+    --accent:#FF7F6B; --gold:#FFD166; --line:rgba(255,255,255,.28);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);
+    font-family:'Sukhumvit Set','Leelawadee UI','Noto Sans Thai','Segoe UI',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;padding-bottom:env(safe-area-inset-bottom);}
+  .wrap{max-width:640px;margin:0 auto;padding:22px 18px 50px;position:relative;overflow:hidden;}
+
+  .planet{position:absolute;border-radius:50%;z-index:0;}
+  .planet.p1{width:110px;height:110px;background:#FFB84D;top:-40px;right:-30px;}
+  .planet.p2{width:46px;height:46px;background:#FF7F6B;top:70px;left:-20px;}
+
+  header{position:relative;z-index:1;text-align:center;padding:18px 4px 16px;border-top:4px solid var(--gold);}
+  .eyebrow{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:#FFE8B8;font-weight:800;}
+  h1{font-size:24px;margin:8px 0 6px;font-weight:800;letter-spacing:-.01em;color:var(--ink);}
+  .meta{font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+
+  .chips{position:relative;z-index:1;display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 16px;}
+  .chip{flex:1;min-width:150px;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:9px 12px;}
+  .chip b{display:block;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:5px;}
+  .chip .nums{font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:13.5px;color:var(--ink);}
+  .chip.hot .nums{color:var(--gold);} .chip.cold .nums{color:var(--ink-soft);}
+
+  .rangetabs,.sorttabs{position:relative;z-index:1;display:flex;background:var(--paper-2);border-radius:12px;padding:2px;border:1px solid var(--line);}
+  .rangetabs{margin-bottom:8px;}
+  .controls{position:relative;z-index:1;display:flex;gap:8px;margin:0 0 16px;align-items:stretch;}
+  #search{flex:1;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:12px;
+    background:var(--paper-2);color:var(--ink);font-size:14px;font-family:inherit;font-weight:700;font-variant-numeric:tabular-nums;}
+  #search::placeholder{color:var(--ink-soft);}
+  #search:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  .tab{flex:1;border:none;background:transparent;color:var(--ink-soft);font-family:inherit;font-size:12px;
+    font-weight:700;padding:7px 10px;border-radius:10px;cursor:pointer;white-space:nowrap;}
+  .tab.active{background:var(--gold);color:#4A3300;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+
+  .tier-label{position:relative;z-index:1;display:flex;align-items:center;gap:8px;font-size:10.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-soft);font-weight:700;margin:16px 2px 5px;}
+  .tier-label::after{content:"";flex:1;height:1px;background:var(--line);}
+  .tier-label:first-of-type{margin-top:0;}
+
+  .row{position:relative;z-index:1;display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:10px;scroll-margin:70px;cursor:pointer;}
+  .row.hit{background:var(--paper-2);}
+  .num{width:32px;flex:0 0 auto;text-align:right;font-weight:800;font-variant-numeric:tabular-nums;font-size:14.5px;color:var(--ink);}
+  .track{flex:1;height:13px;background:rgba(255,255,255,.16);border-radius:7px;overflow:hidden;}
+  .row.hit .track{background:rgba(255,255,255,.26);}
+  .fill{height:100%;background:var(--accent);border-radius:7px;}
+  .row.gold .fill{background:var(--gold);}
+  .row.zero .num{opacity:.55;}
+  .cnt{width:16px;flex:0 0 auto;font-size:11.5px;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+  .detail{display:none;font-size:11.5px;color:var(--ink-soft);background:var(--paper-2);border-radius:10px;
+    padding:0;margin:0 2px;line-height:1.7;position:relative;z-index:1;}
+  .detail.open{display:block;padding:8px 10px;margin:2px 2px 6px;}
+
+  footer{position:relative;z-index:1;margin-top:26px;padding-top:13px;border-top:1px solid var(--line);font-size:11px;color:var(--ink-soft);text-align:center;line-height:1.6;}
+  .stale-note{display:none;font-size:10.5px;color:var(--gold);margin-top:6px;}
+  .stale-note.show{display:block;}
+  @media (prefers-reduced-motion: reduce){ * { scroll-behavior:auto !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="planet p1"></div>
+  <div class="planet p2"></div>
+
+  <header>
+    <div class="eyebrow">สลากกินแบ่งรัฐบาล · เลขท้าย 2 ตัว</div>
+    <h1>ความถี่เลขท้าย 2 ตัว</h1>
+    <div class="meta" id="meta">กำลังโหลด…</div>
+    <div class="stale-note" id="staleNote">โหลดข้อมูลสดไม่ได้ · แสดงชุดที่ฝังไว้ในไฟล์แทน</div>
+  </header>
+
+  <div class="chips">
+    <div class="chip hot"><b id="hotLabel">ออกบ่อยสุด</b><span class="nums" id="hotNums">…</span></div>
+    <div class="chip cold"><b>ไม่เคยออกเลย</b><span class="nums" id="coldNums">…</span></div>
+  </div>
+
+  <div class="rangetabs" role="tablist">
+    <button class="tab active" data-range="5">5 ปี</button>
+    <button class="tab" data-range="10">10 ปี</button>
+    <button class="tab" data-range="20">20 ปี</button>
+  </div>
+
+  <div class="controls">
+    <input type="search" id="search" placeholder="ค้นเลข เช่น 14" inputmode="numeric" maxlength="2" autocomplete="off">
+    <div class="sorttabs" role="tablist">
+      <button class="tab active" data-sort="freq">ความถี่</button>
+      <button class="tab" data-sort="num">เลข</button>
+    </div>
+  </div>
+
+  <div id="list"></div>
+
+  <footer>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span></footer>
+
+</div>
+
+<script>
+const FALLBACK = {"updatedDisplay":"16 กรกฎาคม 2569","source":"myhora.com","draws":[["2016-06-01","14"],["2026-07-16","71"]]};
+
+const thMonths = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function formatThaiDate(iso) {
+  const [y,m,d] = iso.split('-').map(Number);
+  return d + ' ' + thMonths[m-1] + ' ' + (y+543);
+}
+
+let allDraws = [];
+let currentRangeYears = 5;
+let currentSort = 'freq';
+let openDetailEl = null;
+const list = document.getElementById('list');
+
+function filteredDraws() {
+  const cutoff = new Date();
+  cutoff.setFullYear(cutoff.getFullYear() - currentRangeYears);
+  const cutoffISO = cutoff.toISOString().slice(0,10);
+  return allDraws.filter(([d]) => d >= cutoffISO).sort((a,b) => a[0] < b[0] ? -1 : 1);
+}
+
+function toggleDetail(num, dates) {
+  const el = document.getElementById('detail-' + num);
+  if (openDetailEl && openDetailEl !== el) { openDetailEl.classList.remove('open'); openDetailEl.textContent = ''; }
+  if (el.classList.contains('open')) {
+    el.classList.remove('open'); el.textContent = ''; openDetailEl = null;
+  } else {
+    el.textContent = dates.length ? dates.slice().reverse().map(formatThaiDate).join(' · ') : 'ไม่เคยออกในช่วงที่เลือก';
+    el.classList.add('open'); openDetailEl = el;
+  }
+}
+
+function render() {
+  const filtered = filteredDraws();
+  const byNum = {};
+  for (let i = 0; i < 100; i++) byNum[String(i).padStart(2,'0')] = [];
+  filtered.forEach(([d,v]) => { if (byNum[v]) byNum[v].push(d); });
+  const entries = Object.entries(byNum).map(([num, dates]) => [num, dates.length, dates]);
+  const maxCount = entries.reduce((m,[,c]) => Math.max(m,c), 0);
+
+  document.getElementById('meta').textContent = filtered.length
+    ? formatThaiDate(filtered[0][0]) + ' – ' + formatThaiDate(filtered[filtered.length-1][0]) + ' · รวม ' + filtered.length + ' งวด'
+    : 'ไม่มีข้อมูลในช่วงที่เลือก';
+
+  const hot = entries.filter(([,c]) => c === maxCount && c > 0).map(([n]) => n);
+  const cold = entries.filter(([,c]) => c === 0).map(([n]) => n);
+  document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด · ' + maxCount + ' ครั้ง';
+  document.getElementById('hotNums').textContent = hot.length ? hot.join(' · ') : '—';
+  document.getElementById('coldNums').textContent = cold.length ? cold.join(' · ') : 'ไม่มี (ออกครบทุกเลขแล้ว)';
+
+  const sorted = currentSort === 'num'
+    ? entries.slice().sort((a,b) => a[0].localeCompare(b[0]))
+    : entries.slice().sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+
+  const frag = document.createDocumentFragment();
+  let lastCount = null;
+  openDetailEl = null;
+  sorted.forEach(([num, count, dates]) => {
+    if (currentSort === 'freq' && count !== lastCount) {
+      const lbl = document.createElement('div');
+      lbl.className = 'tier-label';
+      lbl.textContent = count + ' ครั้ง' + (count === maxCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
+      frag.appendChild(lbl);
+      lastCount = count;
+    }
+    const row = document.createElement('div');
+    row.className = 'row' + (count === maxCount && maxCount > 0 ? ' gold' : '') + (count === 0 ? ' zero' : '');
+    row.dataset.num = num;
+    const pct = maxCount > 0 ? (count / maxCount * 100).toFixed(1) : 0;
+    row.innerHTML = '<span class="num">' + num + '</span><div class="track"><div class="fill" style="width:' + pct + '%"></div></div><span class="cnt">' + count + '</span>';
+    row.addEventListener('click', () => toggleDetail(num, dates));
+    frag.appendChild(row);
+    const det = document.createElement('div');
+    det.className = 'detail';
+    det.id = 'detail-' + num;
+    frag.appendChild(det);
+  });
+  list.innerHTML = '';
+  list.appendChild(frag);
+}
+
+async function loadData() {
+  let payload;
+  try {
+    const res = await fetch('./draws.json');
+    if (!res.ok) throw new Error('http ' + res.status);
+    payload = await res.json();
+    if (!Array.isArray(payload.draws) || payload.draws.length === 0) throw new Error('bad shape');
+  } catch (e) {
+    document.getElementById('staleNote').classList.add('show');
+    payload = FALLBACK;
+  }
+  allDraws = payload.draws;
+  document.getElementById('sourceName').textContent = payload.source || 'myhora.com';
+  render();
+}
+
+document.querySelectorAll('.rangetabs .tab').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.rangetabs .tab').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentRangeYears = Number(btn.dataset.range);
+    render();
+  });
+});
+document.querySelectorAll('.sorttabs .tab').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.sorttabs .tab').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentSort = btn.dataset.sort;
+    render();
+  });
+});
+
+function tryJump(raw) {
+  const digits = raw.replace(/\D/g, '');
+  if (digits.length === 0) return;
+  const v = digits.length === 1 ? '0' + digits : digits.slice(0, 2);
+  const el = list.querySelector('.row[data-num="' + v + '"]');
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.add('hit');
+    setTimeout(() => el.classList.remove('hit'), 1200);
+  }
+}
+const searchEl = document.getElementById('search');
+searchEl.addEventListener('input', (e) => { if (e.target.value.replace(/\D/g,'').length === 2) tryJump(e.target.value); });
+searchEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryJump(e.target.value); });
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
+}
+
+loadData();
+</script>
+</body>
+</html>
