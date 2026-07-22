@@ -32,15 +32,7 @@ jobs:
       - name: Update last-checked timestamp
         run: |
           ts=$(date -u +%s000)
-          python3 -c "
-import json
-with open('draws.json') as f:
-    data = json.load(f)
-data['lastChecked'] = $ts
-with open('draws.json', 'w') as f:
-    json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
-print('lastChecked updated')
-"
+          python3 -c "import json; p=open('draws.json'); d=json.load(p); p.close(); d['lastChecked']=$ts; open('draws.json','w').write(json.dumps(d,ensure_ascii=False,separators=(',',':')))"
 
       - name: Commit if changed
         run: |
