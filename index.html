@@ -117,7 +117,7 @@
 
   <div id="list"></div>
 
-  <footer>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span></footer>
+  <footer>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · อัปเดต: <span id="updatedDisplay">-</span></footer>
 
 </div>
 
@@ -241,6 +241,7 @@ async function loadData() {
   }
   allDraws = payload.draws;
   document.getElementById('sourceName').textContent = payload.source || 'myhora.com';
+  document.getElementById('updatedDisplay').textContent = payload.updatedDisplay || '-';
   render();
 }
 
