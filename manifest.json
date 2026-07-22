@@ -1,7 +1,7 @@
 {
-  "name": "สถิติเลขท้าย 2 ตัว",
-  "short_name": "เลขท้าย 2 ตัว",
-  "description": "ความถี่เลขท้าย 2 ตัว สลากกินแบ่งรัฐบาล ย้อนหลัง 10 ปี",
+  "name": "2 Digits",
+  "short_name": "2 Digits",
+  "description": "Thai government lottery 2-digit stats",
   "start_url": "./index.html",
   "scope": "./",
   "id": "./",
