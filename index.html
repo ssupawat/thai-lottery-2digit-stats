@@ -117,17 +117,24 @@
 
   <div id="list"></div>
 
-  <footer>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · อัปเดต: <span id="updatedDisplay">-</span></footer>
+  <footer>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span></footer>
 
 </div>
 
 <script>
-const FALLBACK = {"updatedDisplay":"16 กรกฎาคม 2569","source":"myhora.com","draws":[["2016-06-01","14"],["2026-07-16","71"]]};
+const FALLBACK = {"updatedDisplay":"16 กรกฎาคม 2569","lastChecked":null,"source":"myhora.com","draws":[["2016-06-01","14"],["2026-07-16","71"]]};
 
 const thMonths = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 function formatThaiDate(iso) {
   const [y,m,d] = iso.split('-').map(Number);
   return d + ' ' + thMonths[m-1] + ' ' + (y+543);
+}
+
+function formatThaiTimestamp(ms) {
+  const d = new Date(ms);
+  const h = String(d.getHours()).padStart(2,'0');
+  const m = String(d.getMinutes()).padStart(2,'0');
+  return d.getDate() + ' ' + thMonths[d.getMonth()] + ' ' + (d.getFullYear()+543) + ' ' + h + ':' + m;
 }
 
 let allDraws = [];
@@ -241,7 +248,7 @@ async function loadData() {
   }
   allDraws = payload.draws;
   document.getElementById('sourceName').textContent = payload.source || 'myhora.com';
-  document.getElementById('updatedDisplay').textContent = payload.updatedDisplay || '-';
+  document.getElementById('lastChecked').textContent = payload.lastChecked ? formatThaiTimestamp(payload.lastChecked) : '-';
   render();
 }
 

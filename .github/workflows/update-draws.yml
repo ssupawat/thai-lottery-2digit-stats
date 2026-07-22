@@ -29,14 +29,27 @@ jobs:
       - name: Fetch latest draw
         run: python scripts/update_draws.py
 
-      - name: Commit if draws.json changed
+      - name: Update last-checked timestamp
         run: |
-          if git diff --quiet -- draws.json; then
+          ts=$(date -u +%s000)
+          python3 -c "
+import json
+with open('draws.json') as f:
+    data = json.load(f)
+data['lastChecked'] = $ts
+with open('draws.json', 'w') as f:
+    json.dump(data, f, ensure_ascii=False, separators=(',', ':'))
+print('lastChecked updated')
+"
+
+      - name: Commit if changed
+        run: |
+          git config user.name "lottery-stats-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add draws.json
+          if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git config user.name "lottery-stats-bot"
-            git config user.email "actions@users.noreply.github.com"
-            git add draws.json
             git commit -m "Update draws.json ($(date -u +%Y-%m-%d))"
             git push
           fi
