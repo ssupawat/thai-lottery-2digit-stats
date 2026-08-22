@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lottery-stats-v1';
+const CACHE_NAME = 'lottery-stats-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -27,11 +27,32 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Stale-while-revalidate: serve cached copy instantly, refresh cache in the
-// background for next launch. iOS has no background fetch, so "fresh" data
-// only lands the *next* time the app is opened, after this fetch completes.
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
+
+  const url = new URL(event.request.url);
+
+  // draws.json changes daily -- go network-first so a launch with a live
+  // connection always shows today's data instead of waiting for the *next*
+  // launch (iOS has no background fetch to refresh the cache in between).
+  // Falls back to the cached copy only when the network is unreachable.
+  if (url.pathname.endsWith('/draws.json')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((res) => {
+          if (res && res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          }
+          return res;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Everything else: stale-while-revalidate -- serve cached copy instantly,
+  // refresh cache in the background for next launch.
   event.respondWith(
     caches.match(event.request).then((cached) => {
       const network = fetch(event.request)
