@@ -52,6 +52,7 @@
   .chips{position:relative;z-index:1;display:flex;gap:10px;flex-wrap:wrap;margin:4px 0 16px;}
   .chip{flex:1;min-width:150px;background:var(--paper-2);border-radius:14px;padding:9px 12px;cursor:pointer;box-shadow:0 1px 6px rgba(0,0,0,.12);}
   .chip b{display:block;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin-bottom:5px;}
+  .chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
   .chip .nums{font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:13.5px;color:var(--ink);}
   .chip.hot .nums{color:var(--gold);} .chip.cold .nums{color:var(--ink-soft);}
   .chip .more{display:block;font-size:10.5px;font-weight:600;opacity:.75;margin-top:4px;text-decoration:underline;}
@@ -73,6 +74,7 @@
 
   .row{position:relative;z-index:1;display:flex;align-items:center;gap:9px;padding:5px 8px;border-radius:10px;scroll-margin:70px;cursor:pointer;}
   .row.hit{background:var(--paper-2);}
+  .row:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
   .num{width:32px;flex:0 0 auto;text-align:right;font-weight:800;font-variant-numeric:tabular-nums;font-size:14.5px;color:var(--ink);}
   .track{flex:1;height:13px;background:rgba(255,255,255,.16);border-radius:7px;overflow:hidden;}
   .row.hit .track{background:rgba(255,255,255,.26);}
@@ -115,12 +117,12 @@
     <h1>2 Digits</h1>
     <div class="meta" id="meta">กำลังโหลด…</div>
     <div class="latest" id="latest"></div>
-    <div class="stale-note" id="staleNote">โหลดข้อมูลสดไม่ได้ · แสดงชุดที่ฝังไว้ในไฟล์แทน</div>
+    <div class="stale-note" id="staleNote">โหลดข้อมูลไม่ได้ · เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่</div>
   </header>
 
   <div class="chips">
-    <div class="chip hot" id="hotChip"><b id="hotLabel">ออกบ่อยสุด</b><span class="nums" id="hotNums">…</span></div>
-    <div class="chip cold" id="coldChip"><b>ไม่เคยออกเลย</b><span class="nums" id="coldNums">…</span></div>
+    <div class="chip hot" id="hotChip" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="nums" id="hotNums">…</span></div>
+    <div class="chip cold" id="coldChip" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="nums" id="coldNums">…</span></div>
   </div>
 
   <div class="rangetabs" role="tablist">
@@ -144,7 +146,7 @@
 </div>
 
 <script>
-const FALLBACK = {"updatedDisplay":"16 กรกฎาคม 2569","lastChecked":null,"source":"myhora.com","draws":[["2016-06-01","14"],["2026-07-16","71"]]};
+const FALLBACK = {draws: []};
 
 const thMonths = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 function formatThaiDate(iso) {
@@ -165,21 +167,39 @@ let currentSort = 'freq';
 let openDetailEl = null;
 const list = document.getElementById('list');
 
+function localISODate(date) {
+  const year = String(date.getFullYear()).padStart(4, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return year + '-' + month + '-' + day;
+}
+
 function filteredDraws() {
   const cutoff = new Date();
   cutoff.setFullYear(cutoff.getFullYear() - currentRangeYears);
-  const cutoffISO = cutoff.toISOString().slice(0,10);
+  const cutoffISO = localISODate(cutoff);
   return allDraws.filter(([d]) => d >= cutoffISO).sort((a,b) => a[0] < b[0] ? -1 : 1);
 }
 
 function toggleDetail(num, dates) {
   const el = document.getElementById('detail-' + num);
-  if (openDetailEl && openDetailEl !== el) { openDetailEl.classList.remove('open'); openDetailEl.textContent = ''; }
+  const row = el.previousElementSibling;
+  if (openDetailEl && openDetailEl !== el) {
+    openDetailEl.classList.remove('open');
+    openDetailEl.textContent = '';
+    const previousRow = openDetailEl.previousElementSibling;
+    if (previousRow) previousRow.setAttribute('aria-expanded', 'false');
+  }
   if (el.classList.contains('open')) {
-    el.classList.remove('open'); el.textContent = ''; openDetailEl = null;
+    el.classList.remove('open');
+    el.textContent = '';
+    row.setAttribute('aria-expanded', 'false');
+    openDetailEl = null;
   } else {
     el.textContent = dates.length ? dates.slice().reverse().map(formatThaiDate).join(' · ') : 'ไม่เคยออกในช่วงที่เลือก';
-    el.classList.add('open'); openDetailEl = el;
+    el.classList.add('open');
+    row.setAttribute('aria-expanded', 'true');
+    openDetailEl = el;
   }
 }
 
@@ -201,10 +221,19 @@ function renderChip(elId, list, emptyText) {
 }
 
 ['hotChip', 'coldChip'].forEach((chipId) => {
-  document.getElementById(chipId).addEventListener('click', () => {
+  const chip = document.getElementById(chipId);
+  const toggleChip = () => {
     const numsId = chipId === 'hotChip' ? 'hotNums' : 'coldNums';
     chipExpanded[numsId] = !chipExpanded[numsId];
+    chip.setAttribute('aria-expanded', String(chipExpanded[numsId]));
     renderChip(numsId, chipData[numsId], numsId === 'hotNums' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
+  };
+  chip.addEventListener('click', toggleChip);
+  chip.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      toggleChip();
+    }
   });
 });
 
@@ -215,6 +244,16 @@ function render() {
     latestEl.innerHTML = last[1] + '<span class="date">ล่าสุด ' + formatThaiDate(last[0]) + '</span>';
   } else {
     latestEl.innerHTML = '';
+  }
+
+  if (!allDraws.length) {
+    document.getElementById('meta').textContent = 'ไม่มีข้อมูลพร้อมใช้งาน';
+    document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด';
+    renderChip('hotNums', [], 'ไม่มีข้อมูล');
+    renderChip('coldNums', [], 'ไม่มีข้อมูล');
+    list.textContent = 'เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่';
+    openDetailEl = null;
+    return;
   }
 
   const filtered = filteredDraws();
@@ -252,9 +291,19 @@ function render() {
     const row = document.createElement('div');
     row.className = 'row' + (count === maxCount && maxCount > 0 ? ' gold' : '') + (count === 0 ? ' zero' : '');
     row.dataset.num = num;
+    row.setAttribute('role', 'button');
+    row.setAttribute('tabindex', '0');
+    row.setAttribute('aria-expanded', 'false');
+    row.setAttribute('aria-controls', 'detail-' + num);
     const pct = maxCount > 0 ? (count / maxCount * 100).toFixed(1) : 0;
     row.innerHTML = '<span class="num">' + num + '</span><div class="track"><div class="fill" style="width:' + pct + '%"></div></div><span class="cnt">' + count + '</span>';
     row.addEventListener('click', () => toggleDetail(num, dates));
+    row.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggleDetail(num, dates);
+      }
+    });
     frag.appendChild(row);
     const det = document.createElement('div');
     det.className = 'detail';
@@ -277,7 +326,7 @@ async function loadData() {
     payload = FALLBACK;
   }
   allDraws = payload.draws;
-  document.getElementById('sourceName').textContent = payload.source || 'myhora.com';
+  document.getElementById('sourceName').textContent = payload.source || '-';
   document.getElementById('lastChecked').textContent = payload.lastChecked ? formatThaiTimestamp(payload.lastChecked) : '-';
   render();
 }

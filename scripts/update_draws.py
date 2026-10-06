@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-"""Check the official GLO API for today's lottery result and append it to
-draws.json if it's new. Safe to run every day: does nothing on non-draw
-days, and does nothing if today's draw is already recorded (so re-runs
-and manual triggers are harmless).
+"""Check the official GLO API for recent lottery results and append any
+missing draws to draws.json. Safe to run every day: does nothing on
+non-draw days, and re-runs are harmless.
 
 NOTE: the request/response shape here is based on GLO's documented
 example (curl + a published Google Apps Script snippet), not a live call
 -- this repo's environment can't reach glo.or.th to test it directly.
-Run this once by hand (workflow_dispatch) after a real draw and check the
-output before trusting the daily schedule.
+Run this by hand with workflow_dispatch when checking the updater.
 """
 import json
 import sys
@@ -18,6 +16,7 @@ import requests
 
 DRAWS_PATH = "draws.json"
 GLO_URL = "https://www.glo.or.th/api/checking/getLotteryResult"
+RECENT_DAYS = 7
 
 THAI_MONTHS = [
     "", "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
@@ -61,37 +60,55 @@ def fetch_last2(dt):
     return str(value).zfill(2) if value is not None else None
 
 
+def recent_dates(today):
+    return [today - timedelta(days=offset) for offset in range(RECENT_DAYS + 1)]
+
+
 def main():
     today = bangkok_now()
-    today_iso = today.strftime("%Y-%m-%d")
 
     with open(DRAWS_PATH, encoding="utf-8") as f:
         payload = json.load(f)
     draws = payload["draws"]
+    recorded_dates = {d for d, _ in draws}
+    new_draws = []
+    errors = []
 
-    if any(d == today_iso for d, _ in draws):
-        print(f"{today_iso} already recorded -- nothing to do.")
+    for draw_date in recent_dates(today):
+        draw_iso = draw_date.strftime("%Y-%m-%d")
+        if draw_iso in recorded_dates:
+            continue
+
+        try:
+            last2 = fetch_last2(draw_date)
+        except Exception as exc:
+            errors.append(f"{draw_iso}: {exc}")
+            continue
+
+        if last2 is not None:
+            new_draws.append([draw_iso, last2])
+
+    if errors:
+        for error in errors:
+            print(f"Could not reach GLO API for {error}")
+        sys.exit(1)
+
+    if not new_draws:
+        print("No new draws posted in the recent date window.")
         return
 
-    try:
-        last2 = fetch_last2(today)
-    except Exception as exc:
-        print(f"Could not reach GLO API for {today_iso}: {exc}")
-        sys.exit(0)  # don't fail the workflow on a network hiccup
-
-    if last2 is None:
-        print(f"No draw posted for {today_iso} yet (or not a draw day).")
-        return
-
-    draws.append([today_iso, last2])
+    draws.extend(new_draws)
     draws.sort(key=lambda x: x[0])
     payload["draws"] = draws
-    payload["updatedDisplay"] = thai_display(today)
+    latest_new_iso = max(draw_iso for draw_iso, _ in new_draws)
+    latest_new_date = datetime.strptime(latest_new_iso, "%Y-%m-%d")
+    payload["updatedDisplay"] = thai_display(latest_new_date)
 
     with open(DRAWS_PATH, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, separators=(",", ":"))
 
-    print(f"Added {today_iso} -> {last2}")
+    for draw_iso, last2 in new_draws:
+        print(f"Added {draw_iso} -> {last2}")
 
 
 if __name__ == "__main__":

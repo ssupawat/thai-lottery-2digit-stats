@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lottery-stats-v2';
+const CACHE_NAME = 'lottery-stats-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -35,15 +35,14 @@ self.addEventListener('fetch', (event) => {
   // draws.json changes daily -- go network-first so a launch with a live
   // connection always shows today's data instead of waiting for the *next*
   // launch (iOS has no background fetch to refresh the cache in between).
-  // Falls back to the cached copy only when the network is unreachable.
+  // Falls back to the cached copy when the request fails or returns an error.
   if (url.pathname.endsWith('/draws.json')) {
     event.respondWith(
       fetch(event.request)
         .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          }
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
           return res;
         })
         .catch(() => caches.match(event.request))

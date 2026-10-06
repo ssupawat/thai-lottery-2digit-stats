@@ -26,7 +26,10 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch latest draw
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Fetch latest draws
         run: python scripts/update_draws.py
 
       - name: Update last-checked timestamp
