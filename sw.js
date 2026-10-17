@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lottery-stats-v11';
+const CACHE_NAME = 'lottery-stats-v12';
 const ASSETS = [
   './',
   './index.html',
@@ -31,6 +31,10 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   const url = new URL(event.request.url);
+
+  // Cross-origin requests (e.g. the GoatCounter script and its hit beacon)
+  // go straight to the network: a cached beacon would never be counted.
+  if (url.origin !== self.location.origin) return;
 
   // draws.json changes daily -- go network-first so a launch with a live
   // connection always shows today's data instead of waiting for the *next*
