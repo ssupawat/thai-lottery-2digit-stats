@@ -16,7 +16,7 @@
 
 ## How it works
 
-ไม่มี backend และไม่มี build step: เป็นหน้าเดียว (`index.html`) ที่อ่านข้อมูลจาก `draws.json`
+หน้าเว็บคือไฟล์เดียว (`index.html`) ที่อ่านข้อมูลจาก `draws.json`
 
 ```
 GitHub Action ──> scripts/update_draws.py ──> draws.json ──> index.html (เบราว์เซอร์)
