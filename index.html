@@ -61,6 +61,8 @@
   .chip:focus-visible{outline:none;box-shadow:var(--ring);border-color:var(--brand-300);}
   .chip .nums{font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:14px;line-height:20px;color:var(--text-2);}
   .chip.hot .nums{color:var(--brand-700);} .chip.cold .nums{color:var(--text-3);}
+  .n{white-space:nowrap;}
+  .ns .n:not(:last-child)::after{content:' ·';}
   .chip .more{display:block;font-size:12px;font-weight:500;color:var(--brand-600);margin-top:6px;}
 
   .rangetabs,.sorttabs{display:flex;background:var(--bg-muted);border:1px solid var(--border);border-radius:8px;padding:2px;gap:2px;}
@@ -71,7 +73,7 @@
   #search::placeholder{color:var(--text-4);font-weight:400;}
   #search:focus{outline:none;border-color:var(--brand-300);box-shadow:var(--ring);}
   .tab{flex:1;border:none;background:transparent;color:var(--text-4);font-family:inherit;font-size:14px;line-height:20px;
-    font-weight:600;padding:8px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;}
+    font-weight:600;padding:12px;border-radius:6px;cursor:pointer;white-space:nowrap;}
   .tab:hover{color:var(--text-2);}
   .tab:focus-visible{outline:none;box-shadow:var(--ring);}
   .tab.active{background:var(--bg);color:var(--text-2);box-shadow:var(--shadow-sm);}
@@ -80,7 +82,7 @@
   .stats .chip{min-width:0;}
   .stats .chip .nums{font-size:13px;word-break:break-word;}
 
-  .grid-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px;}
+  .grid-card{max-width:640px;margin:0 auto;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px;}
   #grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
   .cell{position:relative;aspect-ratio:1;min-width:0;border:1px solid transparent;border-radius:6px;padding:0;cursor:pointer;
     font-family:inherit;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text-2);
@@ -99,7 +101,7 @@
   .legend .l0{background:var(--bg);border:1px dashed var(--border-2);}
   .legend .l1{background:var(--brand-100);} .legend .l2{background:var(--brand-200);}
   .legend .l3{background:var(--brand-500);} .legend .l4{background:var(--brand-600);}
-  .grid-detail{margin-top:12px;padding:12px;border-radius:8px;background:var(--brand-25);border:1px solid var(--brand-100);font-size:13px;color:var(--text-3);line-height:1.7;}
+  .grid-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--brand-25);border:1px solid var(--brand-100);font-size:13px;color:var(--text-3);line-height:1.7;}
   .grid-detail b{color:var(--text);font-size:16px;margin-right:6px;}
   [hidden]{display:none !important;}
   @media (min-width:720px){#grid{gap:6px;} .cell{font-size:14px;}}
@@ -175,7 +177,7 @@
 
   <div class="grid-card" id="gridCard">
     <div id="grid" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
-    <div class="legend"><span>น้อย</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>มาก</span></div>
+    <div class="legend"><span id="legendMin">0 ครั้ง</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span id="legendMax">–</span></div>
     <div class="grid-detail" id="gridDetail" hidden></div>
   </div>
 
@@ -257,7 +259,7 @@ function renderChip(elId, list, emptyText) {
   const expanded = chipExpanded[elId];
   const shown = expanded ? list : list.slice(0, CHIP_PREVIEW);
   const remaining = list.length - shown.length;
-  let html = shown.join(' · ');
+  let html = '<span class="ns">' + shown.map((n) => '<span class="n">' + n + '</span>').join(' ') + '</span>';
   if (remaining > 0) html += '<span class="more">+' + remaining + ' แตะดูทั้งหมด</span>';
   else if (expanded && list.length > CHIP_PREVIEW) html += '<span class="more">แตะเพื่อย่อ</span>';
   el.innerHTML = html;
@@ -372,6 +374,7 @@ function render() {
 }
 
 function renderGrid(entries, maxCount) {
+  document.getElementById('legendMax').textContent = maxCount + ' ครั้ง';
   const frag = document.createDocumentFragment();
   selectedCell = null;
   gridDetail.hidden = true;
@@ -397,6 +400,7 @@ function renderGrid(entries, maxCount) {
       gridDetail.innerHTML = '<b>' + num + '</b>ออก ' + count + ' ครั้ง' +
         (dates.length ? '<br>' + dates.slice().reverse().map(formatThaiDate).join(' · ') : ' ในช่วงที่เลือก');
       gridDetail.hidden = false;
+      gridDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     frag.appendChild(cell);
   });
