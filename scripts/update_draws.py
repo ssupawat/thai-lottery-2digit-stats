@@ -4,9 +4,9 @@ missing draws to draws.json. Safe to run every day: does nothing on
 non-draw days, and re-runs are harmless.
 
 NOTE: the request/response shape here is based on GLO's documented
-example (curl + a published Google Apps Script snippet), not a live call
--- this repo's environment can't reach glo.or.th to test it directly.
-Run this by hand with workflow_dispatch when checking the updater.
+example (curl + a published Google Apps Script snippet). It has been
+working in the daily GitHub Action; this repo's dev environment can't
+reach glo.or.th, so test changes with workflow_dispatch.
 """
 import json
 import sys
