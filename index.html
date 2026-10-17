@@ -78,12 +78,9 @@
   .tab:focus-visible{outline:none;box-shadow:var(--ring);}
   .tab.active{background:var(--bg);color:var(--text-2);box-shadow:var(--shadow-sm);}
 
-  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 16px;}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px;}
   .stats .chip{min-width:0;}
-  .stat-val{font-size:30px;line-height:38px;font-weight:600;letter-spacing:-.02em;color:var(--text);font-variant-numeric:tabular-nums;}
-  .stat-sub{font-size:12px;color:var(--text-4);line-height:18px;margin-top:2px;}
   .stats .chip .nums{font-size:13px;word-break:break-word;}
-  @media (max-width:520px){.stats{grid-template-columns:1fr 1fr;}.stats .stat-total{grid-column:1/-1;}}
 
   .grid-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px;}
   #grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
@@ -160,7 +157,6 @@
   </header>
 
   <div class="stats">
-    <div class="chip stat-total"><b>งวดทั้งหมด</b><div class="stat-val" id="totalDraws">–</div><div class="stat-sub" id="totalSub">&nbsp;</div></div>
     <div class="chip hot" id="hotChip" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="nums" id="hotNums">…</span></div>
     <div class="chip cold" id="coldChip" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="nums" id="coldNums">…</span></div>
   </div>
@@ -301,7 +297,6 @@ function render() {
     document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด';
     renderChip('hotNums', [], 'ไม่มีข้อมูล');
     renderChip('coldNums', [], 'ไม่มีข้อมูล');
-    document.getElementById('totalDraws').textContent = '–';
     gridEl.textContent = '';
     gridDetail.hidden = true;
     document.getElementById('gridCard').hidden = true;
@@ -321,9 +316,6 @@ function render() {
   document.getElementById('meta').textContent = filtered.length
     ? formatThaiDate(filtered[0][0]) + ' – ' + formatThaiDate(filtered[filtered.length-1][0]) + ' · รวม ' + filtered.length + ' งวด'
     : 'ไม่มีข้อมูลในช่วงที่เลือก';
-
-  document.getElementById('totalDraws').textContent = filtered.length;
-  document.getElementById('totalSub').textContent = 'ย้อนหลัง ' + currentRangeYears + ' ปี';
 
   const hot = entries.filter(([,c]) => c === maxCount && c > 0).map(([n]) => n);
   const cold = entries.filter(([,c]) => c === 0).map(([n]) => n);
