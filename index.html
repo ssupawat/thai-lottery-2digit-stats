@@ -196,11 +196,9 @@ function formatThaiDate(iso) {
   return d + ' ' + thMonths[m-1] + ' ' + (y+543);
 }
 
-function formatThaiTimestamp(ms) {
+function formatThaiCheckedDate(ms) {
   const d = new Date(ms);
-  const h = String(d.getHours()).padStart(2,'0');
-  const m = String(d.getMinutes()).padStart(2,'0');
-  return d.getDate() + ' ' + thMonths[d.getMonth()] + ' ' + (d.getFullYear()+543) + ' ' + h + ':' + m;
+  return d.getDate() + ' ' + thMonths[d.getMonth()] + ' ' + (d.getFullYear()+543);
 }
 
 let allDraws = [];
@@ -421,7 +419,7 @@ async function loadData() {
   }
   allDraws = payload.draws;
   document.getElementById('sourceName').textContent = payload.source || '-';
-  document.getElementById('lastChecked').textContent = payload.lastChecked ? formatThaiTimestamp(payload.lastChecked) : '-';
+  document.getElementById('lastChecked').textContent = payload.lastChecked ? formatThaiCheckedDate(payload.lastChecked) : '-';
   render();
 }
 
