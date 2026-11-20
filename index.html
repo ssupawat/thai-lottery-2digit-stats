@@ -151,7 +151,9 @@
     .controls{flex-direction:column;margin:0;}
     .sorttabs .tab,.rangetabs .tab{padding:10px;}
     .grid-card{padding:24px;}
-    #grid{gap:8px;}
+    /* keep the whole 10×10 map inside the viewport height */
+    #grid{gap:8px;max-width:max(440px,calc(100vh - 210px));margin:0 auto;}
+    .legend{max-width:max(440px,calc(100vh - 210px));margin-left:auto;margin-right:auto;}
     .cell{font-size:15px;border-radius:8px;}
     .legend{margin-top:16px;}
     #list{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px 20px;column-gap:40px;}
