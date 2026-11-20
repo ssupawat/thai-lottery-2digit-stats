@@ -103,6 +103,7 @@
   .legend .l3{background:var(--brand-500);} .legend .l4{background:var(--brand-600);}
   .grid-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--brand-25);border:1px solid var(--brand-100);font-size:13px;color:var(--text-3);line-height:1.7;}
   .grid-detail b{color:var(--text);font-size:16px;margin-right:6px;}
+  .recent{display:none;}
   [hidden]{display:none !important;}
   @media (min-width:720px){#grid{gap:6px;} .cell{font-size:14px;}}
 
@@ -156,6 +157,11 @@
     .controls{flex-direction:column;margin:0;}
     .sorttabs .tab,.rangetabs .tab{padding:10px;}
     .grid-detail{margin:0;padding:14px 16px;background:var(--bg);border:1px solid var(--border);box-shadow:var(--shadow-xs);}
+    .recent{display:block;grid-column:1/-1;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:12px 16px;}
+    .recent h2{margin:0 0 4px;font-size:12px;font-weight:500;color:var(--text-4);line-height:18px;}
+    .recent .r{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-size:13px;color:var(--text-3);border-top:1px solid var(--border);}
+    .recent .r:first-of-type{border-top:0;}
+    .recent .r b{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--text-2);}
     .grid-detail.empty{border-style:dashed;box-shadow:none;background:transparent;color:var(--text-4);}
     .grid-card{padding:24px;}
     /* keep the whole 10×10 map inside the viewport height */
@@ -199,6 +205,8 @@
       <button class="tab" data-sort="num">เลข</button>
     </div>
   </div>
+
+  <div class="recent" id="recent" hidden></div>
 
 </div>
 <main class="main">
@@ -327,6 +335,7 @@ function render() {
     renderChip('hotNums', [], 'ไม่มีข้อมูล');
     renderChip('coldNums', [], 'ไม่มีข้อมูล');
     gridEl.textContent = '';
+    document.getElementById('recent').hidden = true;
     gridDetail.hidden = true;
     document.getElementById('gridCard').hidden = true;
     list.hidden = false;
@@ -334,6 +343,11 @@ function render() {
     openDetailEl = null;
     return;
   }
+
+  const recentEl = document.getElementById('recent');
+  recentEl.innerHTML = '<h2>ผลล่าสุด</h2>' + allDraws.slice(-5).reverse().map(([d, v]) =>
+    '<div class="r"><span>' + formatThaiDate(d) + '</span><b>' + v + '</b></div>').join('');
+  recentEl.hidden = false;
 
   const filtered = filteredDraws();
   const byNum = {};
@@ -415,7 +429,8 @@ function resetDetail() {
   }
 }
 function placeDetail() {
-  (deskMQ.matches ? document.querySelector('.side') : document.getElementById('gridCard')).appendChild(gridDetail);
+  if (deskMQ.matches) document.querySelector('.side').insertBefore(gridDetail, document.getElementById('recent'));
+  else document.getElementById('gridCard').appendChild(gridDetail);
   if (!selectedCell) resetDetail();
 }
 deskMQ.addEventListener('change', () => { placeDetail(); renderChip('hotNums', chipData.hotNums, '—'); renderChip('coldNums', chipData.coldNums, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
