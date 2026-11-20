@@ -142,16 +142,25 @@
   @media (min-width: 960px) {
     .wrap{max-width:1120px;padding:40px 32px 64px;}
     .layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:40px;align-items:start;}
-    .side{position:sticky;top:24px;}
-    header{text-align:left;padding:0 0 20px;}
-    h1{font-size:30px;line-height:38px;}
-    .latest{display:block;margin-top:16px;min-width:0;padding:14px 20px;}
-    .stats{grid-template-columns:1fr;}
+    .side{position:sticky;top:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start;}
+    header{display:contents;}
+    h1{grid-column:1/-1;font-size:26px;line-height:34px;text-wrap:balance;text-align:left;margin:0;}
+    .meta{grid-column:1/-1;text-align:left;margin:-8px 0 4px;}
+    .stale-note{grid-column:1/-1;justify-self:start;margin:0;}
+    .latest{display:flex;flex-direction:column;justify-content:center;margin:0;min-width:0;padding:12px 16px;text-align:left;font-size:28px;}
+    .stats{display:contents;}
+    .stats .chip{margin:0;}
+    #coldChip,.rangetabs,.controls,.grid-detail{grid-column:1/-1;}
     .stats .chip .nums{font-size:14px;}
+    .rangetabs{margin:0;}
     .controls{flex-direction:column;margin:0;}
     .sorttabs .tab,.rangetabs .tab{padding:10px;}
+    .grid-detail{margin:0;padding:14px 16px;background:var(--bg);border:1px solid var(--border);box-shadow:var(--shadow-xs);}
+    .grid-detail.empty{border-style:dashed;box-shadow:none;background:transparent;color:var(--text-4);}
     .grid-card{padding:24px;}
-    #grid{gap:8px;}
+    /* keep the whole 10×10 map inside the viewport height */
+    #grid{gap:8px;max-width:max(440px,calc(100vh - 210px));margin:0 auto;}
+    .legend{max-width:max(440px,calc(100vh - 210px));margin-left:auto;margin-right:auto;}
     .cell{font-size:15px;border-radius:8px;}
     .legend{margin-top:16px;}
     #list{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px 20px;column-gap:40px;}
@@ -268,7 +277,8 @@ function toggleDetail(num, dates) {
   }
 }
 
-const CHIP_PREVIEW = 4;
+const deskMQ = window.matchMedia('(min-width: 960px)');
+const chipPreview = () => deskMQ.matches ? 10 : 4;
 const chipData = { hotNums: [], coldNums: [] };
 const chipExpanded = { hotNums: false, coldNums: false };
 
@@ -277,11 +287,11 @@ function renderChip(elId, list, emptyText) {
   const el = document.getElementById(elId);
   if (!list.length) { el.textContent = emptyText; return; }
   const expanded = chipExpanded[elId];
-  const shown = expanded ? list : list.slice(0, CHIP_PREVIEW);
+  const shown = expanded ? list : list.slice(0, chipPreview());
   const remaining = list.length - shown.length;
   let html = '<span class="ns">' + shown.map((n) => '<span class="n">' + n + '</span>').join(' ') + '</span>';
   if (remaining > 0) html += '<span class="more">+' + remaining + ' แตะดูทั้งหมด</span>';
-  else if (expanded && list.length > CHIP_PREVIEW) html += '<span class="more">แตะเพื่อย่อ</span>';
+  else if (expanded && list.length > chipPreview()) html += '<span class="more">แตะเพื่อย่อ</span>';
   el.innerHTML = html;
 }
 
@@ -345,6 +355,7 @@ function render() {
   const showMap = currentSort === 'map';
   document.getElementById('gridCard').hidden = !showMap;
   list.hidden = showMap;
+  if (!showMap) { selectedCell = null; gridDetail.hidden = true; }
   if (showMap) {
     renderGrid(entries.slice().sort((a,b) => a[0].localeCompare(b[0])), maxCount);
     list.innerHTML = '';
@@ -393,11 +404,27 @@ function render() {
   list.appendChild(frag);
 }
 
+function resetDetail() {
+  if (deskMQ.matches && currentSort === 'map') {
+    gridDetail.className = 'grid-detail empty';
+    gridDetail.textContent = 'แตะเลขในแผนผังเพื่อดูวันที่ที่เคยออก';
+    gridDetail.hidden = false;
+  } else {
+    gridDetail.className = 'grid-detail';
+    gridDetail.hidden = true;
+  }
+}
+function placeDetail() {
+  (deskMQ.matches ? document.querySelector('.side') : document.getElementById('gridCard')).appendChild(gridDetail);
+  if (!selectedCell) resetDetail();
+}
+deskMQ.addEventListener('change', () => { placeDetail(); renderChip('hotNums', chipData.hotNums, '—'); renderChip('coldNums', chipData.coldNums, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
+
 function renderGrid(entries, maxCount) {
   document.getElementById('legendMax').textContent = maxCount + ' ครั้ง';
   const frag = document.createDocumentFragment();
   selectedCell = null;
-  gridDetail.hidden = true;
+  resetDetail();
   entries.forEach(([num, count, dates]) => {
     const level = count === 0 ? 0 : Math.max(1, Math.ceil(count / maxCount * 4));
     const cell = document.createElement('button');
@@ -411,16 +438,17 @@ function renderGrid(entries, maxCount) {
       if (selectedCell === cell) {
         cell.classList.remove('sel');
         selectedCell = null;
-        gridDetail.hidden = true;
+        resetDetail();
         return;
       }
       if (selectedCell) selectedCell.classList.remove('sel');
       cell.classList.add('sel');
       selectedCell = cell;
+      gridDetail.className = 'grid-detail';
       gridDetail.innerHTML = '<b>' + num + '</b>ออก ' + count + ' ครั้ง' +
         (dates.length ? '<br>' + dates.slice().reverse().map(formatThaiDate).join(' · ') : ' ในช่วงที่เลือก');
       gridDetail.hidden = false;
-      gridDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!deskMQ.matches) gridDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     frag.appendChild(cell);
   });
@@ -481,6 +509,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
 }
 
+placeDetail();
 loadData();
 </script>
 <script data-goatcounter="https://2digits.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
