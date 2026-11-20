@@ -82,7 +82,7 @@
   .stats .chip{min-width:0;}
   .stats .chip .nums{font-size:13px;word-break:break-word;}
 
-  .grid-card{max-width:640px;margin:0 auto;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px;}
+  .grid-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px;}
   #grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
   .cell{position:relative;aspect-ratio:1;min-width:0;border:1px solid transparent;border-radius:6px;padding:0;cursor:pointer;
     font-family:inherit;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text-2);
@@ -133,20 +133,36 @@
   .stale-note.show{display:inline-block;}
 
   @media (min-width: 720px) {
-    .wrap{max-width:900px;}
+    .wrap{max-width:720px;}
     #list{display:grid;grid-template-columns:1fr 1fr;column-gap:32px;}
     .tier-label{grid-column:1/-1;}
     .detail.open{grid-column:1/-1;}
   }
-  @media (min-width: 1080px) {
-    .wrap{max-width:1180px;}
-    #list{grid-template-columns:1fr 1fr 1fr;}
+  /* Desktop: controls on the left (sticky), results on the right */
+  @media (min-width: 960px) {
+    .wrap{max-width:1120px;padding:40px 32px 64px;}
+    .layout{display:grid;grid-template-columns:340px minmax(0,1fr);gap:40px;align-items:start;}
+    .side{position:sticky;top:24px;}
+    header{text-align:left;padding:0 0 20px;}
+    h1{font-size:30px;line-height:38px;}
+    .latest{display:block;margin-top:16px;min-width:0;padding:14px 20px;}
+    .stats{grid-template-columns:1fr;}
+    .stats .chip .nums{font-size:14px;}
+    .controls{flex-direction:column;margin:0;}
+    .sorttabs .tab,.rangetabs .tab{padding:10px;}
+    .grid-card{padding:24px;}
+    #grid{gap:8px;}
+    .cell{font-size:15px;border-radius:8px;}
+    .legend{margin-top:16px;}
+    #list{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px 20px;column-gap:40px;}
   }
   @media (prefers-reduced-motion: reduce){ * { scroll-behavior:auto !important; } }
 </style>
 </head>
 <body>
 <div class="wrap">
+<div class="layout">
+<div class="side">
 
   <header>
     <h1>เลขท้าย 2 ตัว ออกอะไรบ่อย?</h1>
@@ -175,6 +191,9 @@
     </div>
   </div>
 
+</div>
+<main class="main">
+
   <div class="grid-card" id="gridCard">
     <div id="grid" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
     <div class="legend"><span id="legendMin">0 ครั้ง</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span id="legendMax">–</span></div>
@@ -182,6 +201,9 @@
   </div>
 
   <div id="list" hidden></div>
+
+</main>
+</div>
 
   <footer>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span><div class="site-link"><a href="https://ssupawat.github.io/">← art.</a></div></footer>
 
