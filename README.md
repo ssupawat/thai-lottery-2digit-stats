@@ -1,63 +1,32 @@
 # thai-lottery-2digit-stats
 
-สถิติเลขท้าย 2 ตัว (สลากกินแบ่งรัฐบาล) แบบ PWA
+Frequency stats for the last two digits of the Thai Government Lottery, as an installable offline-capable PWA.
 
-อ้างอิงข้อมูลจาก [heart/Data-Set-Thai-Lotto](https://github.com/heart/Data-Set-Thai-Lotto)
+## Features
 
-## ฟีเจอร์
-
-- แผนผัง 10×10 ของเลข 00–99 สีเข้มตามความถี่ (หรือสลับเป็นรายการเรียงตามความถี่/ตามเลข)
-- ปรับช่วงย้อนหลัง 5 / 10 / 20 ปี
-- พิมพ์ 2 หลักค้นหา + ไฮไลต์
-- แตะเลขดูวันที่ออก
-- การ์ดสรุปเลขที่ออกบ่อยสุดและเลขที่ไม่เคยออกเลยในช่วงที่เลือก
-- ติดตั้งเป็นแอปและใช้ออฟไลน์ได้ (PWA)
-- อัปเดตข้อมูลอัตโนมัติผ่าน GitHub Action (ดึงจาก API ของ GLO)
+- 10×10 heatmap of 00–99, or sortable frequency / number lists
+- 5 / 10 / 20-year range
+- Quick search and per-number draw dates
+- Hottest and never-drawn number summaries
+- Works offline (PWA)
 
 ## How it works
 
-หน้าเว็บคือไฟล์เดียว (`index.html`) ที่อ่านข้อมูลจาก `draws.json`
-
-```
-GitHub Action ──> scripts/update_draws.py ──> draws.json ──> index.html (เบราว์เซอร์)
- (ตั้งเวลา)        เรียก API ของ GLO          commit กลับ      นับความถี่ + วาดแผนผัง
-```
-
-1. **อัปเดตข้อมูล:** `.github/workflows/update-draws.yml` รันตามเวลาที่ตั้งไว้ (cron) และรันมือได้ผ่าน `workflow_dispatch` ขั้นตอนคือรันเทสต์ → `scripts/update_draws.py` → อัปเดตเวลา `lastChecked` → commit `draws.json` กลับเข้า repo ถ้ามีการเปลี่ยนแปลง
-2. **ตรวจงวดใหม่:** สคริปต์ถาม API ของ GLO ย้อนหลัง 7 วัน เพิ่มเฉพาะวันที่ยังไม่มีใน `draws.json` และได้เลขท้าย 2 ตัวกลับมา วันที่ไม่ใช่วันหวยออกจะไม่ได้ผลลัพธ์และถูกข้าม จึงรันซ้ำได้โดยไม่มีผลเสีย ถ้าเรียก API ไม่สำเร็จ สคริปต์จะ fail เพื่อให้เห็นใน Actions
-3. **คำนวณในเบราว์เซอร์:** ความถี่ของแต่ละเลขนับสดจาก `draws.json` ตามช่วงปีที่เลือก
-4. **ออฟไลน์:** `sw.js` ใช้ service worker โดย `draws.json` ลองโหลดจากเน็ตก่อน (network-first) แล้วตกไปใช้ค่าที่แคชไว้เมื่อออฟไลน์ ส่วนไฟล์อื่นเสิร์ฟจากแคชทันทีแล้วรีเฟรชเบื้องหลัง
-5. **เปลี่ยนหน้าตา/โค้ด:** เพิ่มเลขเวอร์ชันของ `CACHE_NAME` ใน `sw.js` ทุกครั้ง ไม่เช่นนั้นผู้ใช้เดิมอาจยังเห็นไฟล์เก่าจากแคช
-
-### ทดสอบ
-
-```shell
-python -m unittest discover -s tests -v
+```mermaid
+flowchart LR
+  A[GitHub Action<br/>scheduled] --> B[scripts/update_draws.py]
+  B -->|fetch new draws| C[(GLO API)]
+  B -->|commit| D[draws.json]
+  D --> E[index.html<br/>counts + renders in browser]
+  E <--> F[sw.js<br/>offline cache]
 ```
 
-เทสต์ครอบคลุมสคริปต์อัปเดตข้อมูล (ใช้ API จำลอง) ส่วนการเรียก API จริงของ GLO ต้องทดสอบผ่าน `workflow_dispatch` เพราะบางสภาพแวดล้อมเข้า `glo.or.th` ไม่ได้
+## Data credits
 
-## สถิติผู้เข้าชม
+- Draws 2006–2024: [heart/Data-Set-Thai-Lotto](https://github.com/heart/Data-Set-Thai-Lotto) (sourced from sanook.com)
+- Draws 2025–2026: [myhora.com](https://www.myhora.com/)
+- New draws: [Government Lottery Office (GLO)](https://www.glo.or.th/) API
 
-เว็บใช้ [GoatCounter](https://www.goatcounter.com/) นับจำนวนผู้เข้าชมแบบไม่ระบุตัวตน ไม่ใช้คุกกี้ และไม่ติดตามข้ามเว็บ
+Counts were cross-checked against myhora.com's published statistics.
 
-## ข้อมูล (`draws.json`)
-
-ข้อมูลใน `draws.json` ถูกอัปเดตอัตโนมัติ จึงไม่ระบุจำนวนงวดคงที่ไว้ในเอกสารนี้:
-
-| ช่วง | แหล่งข้อมูล | การตรวจสอบ |
-|---|---|---|
-| 2549–2567 | sanook.com (ผ่าน CSV จาก [heart/Data-Set-Thai-Lotto](https://github.com/heart/Data-Set-Thai-Lotto)) | รวมความถี่ในช่วงที่ทับกัน แล้วเทียบกับสถิติ 10 ปีของ myhora.com ตรงกันทุกเลข |
-| 2568–2569 | myhora.com (ทีละปี: `result-2568.aspx`, `result-2569.aspx`) | ทรานสคริปต์วันที่/เลขที่ออก แล้วเทียบกับตาราง "จำนวนครั้ง" ที่หน้าเดียวกันสรุป ตรงกันทุกเลข |
-| งวดใหม่ (อัปเดตอัตโนมัติ) | API ของสำนักงานสลากกินแบ่งรัฐบาล (`glo.or.th`) ผ่าน `scripts/update_draws.py` | เพิ่มเฉพาะงวดที่ยังไม่มีใน `draws.json` |
-
-ข้อมูลย้อนหลังนำเข้าครั้งเดียว ไม่มีสคริปต์ดึงจาก sanook หรือ myhora ซ้ำ
-
-โครงสร้างไฟล์:
-```json
-{
-  "updatedDisplay": "16 กรกฎาคม 2569",
-  "source": "สำนักงานสลากกินแบ่งรัฐบาล (2568+) · ข้อมูลย้อนหลังจาก sanook.com / myhora.com",
-  "draws": [["2006-12-30","07"], ["2007-01-16","39"], ..., ["2026-07-16","71"]]
-}
-```
+Visitor counts via [GoatCounter](https://www.goatcounter.com/) (anonymous, no cookies).
