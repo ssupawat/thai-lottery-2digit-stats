@@ -244,7 +244,7 @@
 </main>
 </div>
 
-  <footer>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span><div class="site-link"><a href="https://ssupawat.github.io/">← art.</a></div></footer>
+  <footer><span>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span><span id="visitsWrap" hidden> · เข้าชมสะสม: <span id="visits"></span> ครั้ง</span></span><div class="site-link"><a href="https://ssupawat.github.io/">← art.</a></div></footer>
 
 </div>
 
@@ -546,8 +546,23 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
 }
 
+// Cumulative visits from GoatCounter's public counter. Fails silently
+// (offline, blocked, counter disabled): the footer simply omits it.
+async function loadVisits() {
+  try {
+    const res = await fetch('https://2digits.goatcounter.com/counter/TOTAL.json');
+    if (!res.ok) return;
+    const data = await res.json();
+    const n = parseInt(String(data.count).replace(/\D/g, ''), 10);
+    if (!Number.isFinite(n)) return;
+    document.getElementById('visits').textContent = n.toLocaleString('en-US');
+    document.getElementById('visitsWrap').hidden = false;
+  } catch (e) {}
+}
+
 placeDetail();
 loadData();
+loadVisits();
 </script>
 <script data-goatcounter="https://2digits.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
