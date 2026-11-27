@@ -55,15 +55,15 @@
   .latest:empty{display:none;}
   .latest .label{display:block;font-size:12px;font-weight:500;color:var(--text-4);letter-spacing:0;line-height:18px;}
 
-  .boxes{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 16px;}
-  .box{flex:1;min-width:150px;background:var(--background);border:1px solid var(--border);border-radius:12px;padding:12px 16px;cursor:pointer;box-shadow:var(--shadow-small);}
-  .box b{display:block;font-size:12px;font-weight:500;color:var(--text-4);margin-bottom:6px;line-height:18px;}
-  .box:focus-visible{outline:none;box-shadow:var(--focus-line);border-color:var(--main-300);}
-  .box .numbers{font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:14px;line-height:20px;color:var(--text-2);}
-  .box.hot .numbers{color:var(--main-700);} .box.cold .numbers{color:var(--text-3);}
+  .chips{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 16px;}
+  .chip{flex:1;min-width:150px;background:var(--background);border:1px solid var(--border);border-radius:12px;padding:12px 16px;cursor:pointer;box-shadow:var(--shadow-small);}
+  .chip b{display:block;font-size:12px;font-weight:500;color:var(--text-4);margin-bottom:6px;line-height:18px;}
+  .chip:focus-visible{outline:none;box-shadow:var(--focus-line);border-color:var(--main-300);}
+  .chip .numbers{font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:14px;line-height:20px;color:var(--text-2);}
+  .chip.hot .numbers{color:var(--main-700);} .chip.cold .numbers{color:var(--text-3);}
   .item{white-space:nowrap;}
   .items .item:not(:last-child)::after{content:' ·';}
-  .box .more{display:block;font-size:12px;font-weight:500;color:var(--main-600);margin-top:6px;}
+  .chip .more{display:block;font-size:12px;font-weight:500;color:var(--main-600);margin-top:6px;}
 
   .rangetabs,.sorttabs{display:flex;background:var(--background-soft);border:1px solid var(--border);border-radius:8px;padding:2px;gap:2px;}
   .rangetabs{margin-bottom:12px;}
@@ -79,8 +79,8 @@
   .tab.active{background:var(--background);color:var(--text-2);box-shadow:var(--shadow-medium);}
 
   .counts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px;}
-  .counts .box{min-width:0;}
-  .counts .box .numbers{font-size:13px;word-break:break-word;}
+  .counts .chip{min-width:0;}
+  .counts .chip .numbers{font-size:13px;word-break:break-word;}
 
   .grid-card{background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:16px;}
   #grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
@@ -96,20 +96,20 @@
   .cell:focus-visible{outline:none;box-shadow:var(--focus-line);z-index:1;}
   .cell.chosen{outline:2px solid var(--text);outline-offset:1px;z-index:1;}
   .cell.found{outline:2px solid var(--main-600);outline-offset:2px;z-index:1;}
-  .key{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:12px;font-size:12px;color:var(--text-4);}
-  .key i{width:14px;height:14px;border-radius:4px;display:inline-block;}
-  .key .level-0{background:var(--background);border:1px dashed var(--border-2);}
-  .key .level-1{background:var(--main-100);} .key .level-2{background:var(--main-200);}
-  .key .level-3{background:var(--main-500);} .key .level-4{background:var(--main-600);}
+  .legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:12px;font-size:12px;color:var(--text-4);}
+  .legend i{width:14px;height:14px;border-radius:4px;display:inline-block;}
+  .legend .level-0{background:var(--background);border:1px dashed var(--border-2);}
+  .legend .level-1{background:var(--main-100);} .legend .level-2{background:var(--main-200);}
+  .legend .level-3{background:var(--main-500);} .legend .level-4{background:var(--main-600);}
   .grid-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--main-25);border:1px solid var(--main-100);font-size:13px;color:var(--text-3);line-height:1.7;}
   .grid-detail b{color:var(--text);font-size:16px;margin-right:6px;}
   .recent{display:none;}
   [hidden]{display:none !important;}
   @media (min-width:720px){#grid{gap:6px;} .cell{font-size:14px;}}
 
-  .group-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--text-4);margin:20px 4px 6px;}
-  .group-label::after{content:"";flex:1;height:1px;background:var(--border);}
-  .group-label:first-of-type{margin-top:0;}
+  .tier-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--text-4);margin:20px 4px 6px;}
+  .tier-label::after{content:"";flex:1;height:1px;background:var(--border);}
+  .tier-label:first-of-type{margin-top:0;}
 
   .row{display:flex;align-items:center;gap:12px;padding:6px 10px;border-radius:8px;scroll-margin:70px;cursor:pointer;}
   .row:hover{background:var(--background-soft);}
@@ -130,13 +130,13 @@
   .home-link{margin-top:12px;}
   .home-link a{color:var(--main-600);font-weight:600;text-decoration:none;}
   .home-link a:hover{color:var(--main-700);}
-  .old-note{display:none;font-size:12px;font-weight:500;color:#B42318;background:#FEF3F2;border:1px solid #FECDCA;border-radius:16px;padding:2px 10px;margin-top:8px;}
-  .old-note.show{display:inline-block;}
+  .stale-note{display:none;font-size:12px;font-weight:500;color:#B42318;background:#FEF3F2;border:1px solid #FECDCA;border-radius:16px;padding:2px 10px;margin-top:8px;}
+  .stale-note.show{display:inline-block;}
 
   @media (min-width: 720px) {
     .page{max-width:720px;}
     #list{display:grid;grid-template-columns:1fr 1fr;column-gap:32px;}
-    .group-label{grid-column:1/-1;}
+    .tier-label{grid-column:1/-1;}
     .detail.open{grid-column:1/-1;}
   }
   /* Desktop: controls on the left (sticky), results on the right */
@@ -151,15 +151,15 @@
     header{display:contents;}
     h1{grid-column:1/-1;font-size:26px;line-height:34px;text-wrap:balance;text-align:left;margin:0;}
     .info{grid-column:1/-1;text-align:left;margin:-8px 0 4px;}
-    .old-note{grid-column:1/-1;justify-self:start;margin:0;}
+    .stale-note{grid-column:1/-1;justify-self:start;margin:0;}
     .latest{display:none;}
     .counts{display:contents;}
-    .counts .box{margin:0;}
-    #hotBox,#coldBox,.rangetabs,.controls,.grid-detail{grid-column:1/-1;}
+    .counts .chip{margin:0;}
+    #hotChip,#coldChip,.rangetabs,.controls,.grid-detail{grid-column:1/-1;}
     /* order: title → controls → stats → latest draws → tapped-number detail */
-    .rangetabs{order:1;} .controls{order:2;} #hotBox{order:3;} #coldBox{order:4;} .recent{order:5;} .grid-detail{order:6;}
+    .rangetabs{order:1;} .controls{order:2;} #hotChip{order:3;} #coldChip{order:4;} .recent{order:5;} .grid-detail{order:6;}
     .sorttabs{order:-1;}
-    .counts .box .numbers{font-size:14px;}
+    .counts .chip .numbers{font-size:14px;}
     .rangetabs{margin:0;}
     .controls{flex-direction:column;margin:0;}
     .sorttabs .tab,.rangetabs .tab{padding:10px;}
@@ -176,9 +176,9 @@
     .grid-card{padding:24px;}
     /* keep the whole 10×10 map inside the viewport height */
     #grid{gap:8px;max-width:max(360px,calc(100vh - 206px));margin:0 auto;}
-    .key{max-width:max(360px,calc(100vh - 206px));margin-left:auto;margin-right:auto;}
+    .legend{max-width:max(360px,calc(100vh - 206px));margin-left:auto;margin-right:auto;}
     .cell{font-size:15px;border-radius:8px;}
-    .key{margin-top:16px;}
+    .legend{margin-top:16px;}
     #list{background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:16px 20px;column-gap:40px;}
   }
   /* short desktop windows: tighten the sidebar so everything still fits */
@@ -186,7 +186,7 @@
     .page{padding-top:24px;}
     .side{gap:8px;}
     .info{margin-top:-4px;}
-    .counts .box{padding:8px 12px;}
+    .counts .chip{padding:8px 12px;}
     .sorttabs .tab,.rangetabs .tab{padding:7px;}
     #search{padding:7px 14px;}
     .grid-detail{height:90px;padding:10px 14px;}
@@ -205,12 +205,12 @@
     <h1>เลขท้าย 2 ตัว ออกอะไรบ่อย?</h1>
     <div class="info" id="info">กำลังโหลด…</div>
     <div class="latest" id="latest"></div>
-    <div class="old-note" id="oldNote">โหลดข้อมูลไม่ได้ · เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่</div>
+    <div class="stale-note" id="staleNote">โหลดข้อมูลไม่ได้ · เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่</div>
   </header>
 
   <div class="counts">
-    <div class="box hot" id="hotBox" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="numbers" id="hotNumbers">…</span></div>
-    <div class="box cold" id="coldBox" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="numbers" id="coldNumbers">…</span></div>
+    <div class="chip hot" id="hotChip" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="numbers" id="hotNumbers">…</span></div>
+    <div class="chip cold" id="coldChip" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="numbers" id="coldNumbers">…</span></div>
   </div>
 
   <div class="rangetabs" role="tablist">
@@ -235,7 +235,7 @@
 
   <div class="grid-card" id="gridCard">
     <div id="grid" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
-    <div class="key"><span id="keyLow">0 ครั้ง</span><i class="level-0"></i><i class="level-1"></i><i class="level-2"></i><i class="level-3"></i><i class="level-4"></i><span id="keyHigh">–</span></div>
+    <div class="legend"><span id="legendMin">0 ครั้ง</span><i class="level-0"></i><i class="level-1"></i><i class="level-2"></i><i class="level-3"></i><i class="level-4"></i><span id="legendMax">–</span></div>
     <div class="grid-detail" id="gridDetail" hidden></div>
   </div>
 
@@ -308,36 +308,36 @@ function toggleDetail(number, dates) {
 }
 
 const bigScreen = window.matchMedia('(min-width: 960px)');
-const boxPreview = () => bigScreen.matches ? 10 : 4;
-const boxData = { hotNumbers: [], coldNumbers: [] };
-const boxIsOpen = { hotNumbers: false, coldNumbers: false };
+const chipPreview = () => bigScreen.matches ? 10 : 4;
+const chipData = { hotNumbers: [], coldNumbers: [] };
+const chipExpanded = { hotNumbers: false, coldNumbers: false };
 
-function renderBox(elementId, numbers, emptyText) {
-  boxData[elementId] = numbers;
+function renderChip(elementId, numbers, emptyText) {
+  chipData[elementId] = numbers;
   const element = document.getElementById(elementId);
   if (!numbers.length) { element.textContent = emptyText; return; }
-  const isOpen = boxIsOpen[elementId];
-  const shown = isOpen ? numbers : numbers.slice(0, boxPreview());
+  const isOpen = chipExpanded[elementId];
+  const shown = isOpen ? numbers : numbers.slice(0, chipPreview());
   const rest = numbers.length - shown.length;
   let html = '<span class="items">' + shown.map((number) => '<span class="item">' + number + '</span>').join(' ') + '</span>';
   if (rest > 0) html += '<span class="more">+' + rest + ' แตะดูทั้งหมด</span>';
-  else if (isOpen && numbers.length > boxPreview()) html += '<span class="more">แตะเพื่อย่อ</span>';
+  else if (isOpen && numbers.length > chipPreview()) html += '<span class="more">แตะเพื่อย่อ</span>';
   element.innerHTML = html;
 }
 
-['hotBox', 'coldBox'].forEach((boxId) => {
-  const box = document.getElementById(boxId);
-  const toggleBox = () => {
-    const numbersId = boxId === 'hotBox' ? 'hotNumbers' : 'coldNumbers';
-    boxIsOpen[numbersId] = !boxIsOpen[numbersId];
-    box.setAttribute('aria-expanded', String(boxIsOpen[numbersId]));
-    renderBox(numbersId, boxData[numbersId], numbersId === 'hotNumbers' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
+['hotChip', 'coldChip'].forEach((chipId) => {
+  const chip = document.getElementById(chipId);
+  const toggleChip = () => {
+    const numbersId = chipId === 'hotChip' ? 'hotNumbers' : 'coldNumbers';
+    chipExpanded[numbersId] = !chipExpanded[numbersId];
+    chip.setAttribute('aria-expanded', String(chipExpanded[numbersId]));
+    renderChip(numbersId, chipData[numbersId], numbersId === 'hotNumbers' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
   };
-  box.addEventListener('click', toggleBox);
-  box.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+  chip.addEventListener('click', toggleChip);
+  chip.addEventListener('keydown', (event) => {
+    if (event.legend === 'Enter' || event.legend === ' ') {
       event.preventDefault();
-      toggleBox();
+      toggleChip();
     }
   });
 });
@@ -354,8 +354,8 @@ function render() {
   if (!allDraws.length) {
     document.getElementById('info').textContent = 'ไม่มีข้อมูลพร้อมใช้งาน';
     document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด';
-    renderBox('hotNumbers', [], 'ไม่มีข้อมูล');
-    renderBox('coldNumbers', [], 'ไม่มีข้อมูล');
+    renderChip('hotNumbers', [], 'ไม่มีข้อมูล');
+    renderChip('coldNumbers', [], 'ไม่มีข้อมูล');
     gridEl.textContent = '';
     document.getElementById('recent').hidden = true;
     gridDetail.hidden = true;
@@ -385,8 +385,8 @@ function render() {
   const hot = items.filter(([, count]) => count === largestCount && count > 0).map(([number]) => number);
   const cold = items.filter(([, count]) => count === 0).map(([number]) => number);
   document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด · ' + largestCount + ' ครั้ง';
-  renderBox('hotNumbers', hot, '—');
-  renderBox('coldNumbers', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
+  renderChip('hotNumbers', hot, '—');
+  renderChip('coldNumbers', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
 
   const showMap = currentShow === 'map';
   document.getElementById('gridCard').hidden = !showMap;
@@ -409,7 +409,7 @@ function render() {
   sorted.forEach(([number, count, dates]) => {
     if (currentShow === 'often' && count !== lastCount) {
       const label = document.createElement('div');
-      label.className = 'group-label';
+      label.className = 'tier-label';
       label.textContent = count + ' ครั้ง' + (count === largestCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
       frag.appendChild(label);
       lastCount = count;
@@ -425,7 +425,7 @@ function render() {
     row.innerHTML = '<span class="number">' + number + '</span><div class="track"><div class="fill" style="width:' + percent + '%"></div></div><span class="count">' + count + '</span>';
     row.addEventListener('click', () => toggleDetail(number, dates));
     row.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
+      if (event.legend === 'Enter' || event.legend === ' ') {
         event.preventDefault();
         toggleDetail(number, dates);
       }
@@ -455,10 +455,10 @@ function putDetail() {
   else document.getElementById('gridCard').appendChild(gridDetail);
   if (!chosenCell) clearDetail();
 }
-bigScreen.addEventListener('change', () => { putDetail(); renderBox('hotNumbers', boxData.hotNumbers, '—'); renderBox('coldNumbers', boxData.coldNumbers, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
+bigScreen.addEventListener('change', () => { putDetail(); renderChip('hotNumbers', chipData.hotNumbers, '—'); renderChip('coldNumbers', chipData.coldNumbers, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
 
 function renderGrid(items, largestCount) {
-  document.getElementById('keyHigh').textContent = largestCount + ' ครั้ง';
+  document.getElementById('legendMax').textContent = largestCount + ' ครั้ง';
   const frag = document.createDocumentFragment();
   chosenCell = null;
   clearDetail();
@@ -501,7 +501,7 @@ async function loadData() {
     payload = await res.json();
     if (!Array.isArray(payload.draws) || payload.draws.length === 0) throw new Error('bad shape');
   } catch (problem) {
-    document.getElementById('oldNote').classList.add('show');
+    document.getElementById('staleNote').classList.add('show');
     payload = EMPTY_DATA;
   }
   allDraws = payload.draws;
@@ -540,7 +540,7 @@ function tryMove(text) {
 }
 const searchElement = document.getElementById('search');
 searchElement.addEventListener('input', (event) => { if (event.target.value.replace(/\D/g,'').length === 2) tryMove(event.target.value); });
-searchElement.addEventListener('keydown', (event) => { if (event.key === 'Enter') tryMove(event.target.value); });
+searchElement.addEventListener('keydown', (event) => { if (event.legend === 'Enter') tryMove(event.target.value); });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
