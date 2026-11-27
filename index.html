@@ -223,7 +223,7 @@
     <input type="search" id="search" placeholder="ค้นเลข เช่น 14" inputmode="numeric" maxlength="2" autocomplete="off">
     <div class="sorttabs" role="tablist">
       <button class="tab active" data-sort="map">แผนผัง</button>
-      <button class="tab" data-sort="often">ความถี่</button>
+      <button class="tab" data-sort="freq">ความถี่</button>
       <button class="tab" data-sort="num">เลข</button>
     </div>
   </div>
@@ -249,7 +249,7 @@
 </div>
 
 <script>
-const EMPTY_DATA = {draws: []};
+const FALLBACK = {draws: []};
 
 const thaiMonths = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
 function formatThaiDate(text) {
@@ -407,7 +407,7 @@ function render() {
   let lastCount = null;
   openDetail = null;
   sorted.forEach(([num, count, dates]) => {
-    if (currentShow === 'often' && count !== lastCount) {
+    if (currentShow === 'freq' && count !== lastCount) {
       const lbl = document.createElement('div');
       lbl.className = 'tier-label';
       lbl.textContent = count + ' ครั้ง' + (count === largestCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
@@ -502,7 +502,7 @@ async function loadData() {
     if (!Array.isArray(payload.draws) || payload.draws.length === 0) throw new Error('bad shape');
   } catch (problem) {
     document.getElementById('staleNote').classList.add('show');
-    payload = EMPTY_DATA;
+    payload = FALLBACK;
   }
   allDraws = payload.draws;
   document.getElementById('sourceName').textContent = payload.source || '-';
