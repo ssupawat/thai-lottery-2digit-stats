@@ -45,7 +45,7 @@
   body{background:var(--background-light);color:var(--text);
     font-family:'Inter','Sukhumvit Set','Leelawadee UI','Noto Sans Thai','Segoe UI',system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);overflow-x:hidden;}
-  .page{max-width:640px;margin:0 auto;padding:24px 16px 48px;position:relative;}
+  .wrap{max-width:640px;margin:0 auto;padding:24px 16px 48px;position:relative;}
 
   header{text-align:center;padding:16px 4px 20px;}
   h1{font-size:26px;line-height:34px;margin:0 0 4px;font-weight:600;letter-spacing:-.02em;color:var(--text);}
@@ -53,14 +53,14 @@
   .latest{margin:16px auto 0;display:inline-block;min-width:160px;padding:12px 24px;background:var(--background);border:1px solid var(--border);
     border-radius:12px;box-shadow:var(--shadow-small);font-size:28px;font-weight:600;letter-spacing:.04em;color:var(--text-2);line-height:36px;}
   .latest:empty{display:none;}
-  .latest .label{display:block;font-size:12px;font-weight:500;color:var(--text-4);letter-spacing:0;line-height:18px;}
+  .latest .lbl{display:block;font-size:12px;font-weight:500;color:var(--text-4);letter-spacing:0;line-height:18px;}
 
   .chips{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 16px;}
   .chip{flex:1;min-width:150px;background:var(--background);border:1px solid var(--border);border-radius:12px;padding:12px 16px;cursor:pointer;box-shadow:var(--shadow-small);}
   .chip b{display:block;font-size:12px;font-weight:500;color:var(--text-4);margin-bottom:6px;line-height:18px;}
   .chip:focus-visible{outline:none;box-shadow:var(--focus-line);border-color:var(--main-300);}
-  .chip .numbers{font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:14px;line-height:20px;color:var(--text-2);}
-  .chip.hot .numbers{color:var(--main-700);} .chip.cold .numbers{color:var(--text-3);}
+  .chip .nums{font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:14px;line-height:20px;color:var(--text-2);}
+  .chip.hot .nums{color:var(--main-700);} .chip.cold .nums{color:var(--text-3);}
   .item{white-space:nowrap;}
   .items .item:not(:last-child)::after{content:' ·';}
   .chip .more{display:block;font-size:12px;font-weight:500;color:var(--main-600);margin-top:6px;}
@@ -80,7 +80,7 @@
 
   .counts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px;}
   .counts .chip{min-width:0;}
-  .counts .chip .numbers{font-size:13px;word-break:break-word;}
+  .counts .chip .nums{font-size:13px;word-break:break-word;}
 
   .grid-card{background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:16px;}
   #grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
@@ -94,8 +94,8 @@
   .cell[data-level="4"]{background:var(--main-600);color:#fff;}
   .cell:hover{transform:scale(1.08);z-index:1;box-shadow:var(--shadow-medium);}
   .cell:focus-visible{outline:none;box-shadow:var(--focus-line);z-index:1;}
-  .cell.chosen{outline:2px solid var(--text);outline-offset:1px;z-index:1;}
-  .cell.found{outline:2px solid var(--main-600);outline-offset:2px;z-index:1;}
+  .cell.sel{outline:2px solid var(--text);outline-offset:1px;z-index:1;}
+  .cell.hit{outline:2px solid var(--main-600);outline-offset:2px;z-index:1;}
   .legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:12px;font-size:12px;color:var(--text-4);}
   .legend i{width:14px;height:14px;border-radius:4px;display:inline-block;}
   .legend .level-0{background:var(--background);border:1px dashed var(--border-2);}
@@ -113,14 +113,14 @@
 
   .row{display:flex;align-items:center;gap:12px;padding:6px 10px;border-radius:8px;scroll-margin:70px;cursor:pointer;}
   .row:hover{background:var(--background-soft);}
-  .row.found{background:var(--main-50);}
+  .row.hit{background:var(--main-50);}
   .row:focus-visible{outline:none;box-shadow:var(--focus-line);}
-  .number{width:32px;flex:0 0 auto;text-align:right;font-weight:600;font-variant-numeric:tabular-nums;font-size:14px;color:var(--text-2);}
+  .num{width:32px;flex:0 0 auto;text-align:right;font-weight:600;font-variant-numeric:tabular-nums;font-size:14px;color:var(--text-2);}
   .track{flex:1;height:8px;background:var(--background-soft);border-radius:4px;overflow:hidden;}
-  .row.found .track{background:var(--main-100);}
+  .row.hit .track{background:var(--main-100);}
   .fill{height:100%;background:var(--main-300);border-radius:4px;}
   .row.gold .fill{background:var(--main-600);}
-  .row.zero .number{opacity:.5;}
+  .row.zero .num{opacity:.5;}
   .count{width:20px;flex:0 0 auto;font-size:12px;font-weight:500;color:var(--text-4);font-variant-numeric:tabular-nums;}
   .detail{display:none;font-size:12px;color:var(--text-3);background:var(--background);border:1px solid var(--border);border-radius:8px;
     padding:0;margin:0 2px;line-height:1.7;}
@@ -134,7 +134,7 @@
   .stale-note.show{display:inline-block;}
 
   @media (min-width: 720px) {
-    .page{max-width:720px;}
+    .wrap{max-width:720px;}
     #list{display:grid;grid-template-columns:1fr 1fr;column-gap:32px;}
     .tier-label{grid-column:1/-1;}
     .detail.open{grid-column:1/-1;}
@@ -142,7 +142,7 @@
   /* Desktop: controls on the left (sticky), results on the right */
   @media (min-width: 960px) {
     /* desktop = one full-screen view, no page scroll */
-    .page{max-width:1120px;height:100vh;min-height:560px;padding:36px 32px 0;display:flex;flex-direction:column;}
+    .wrap{max-width:1120px;height:100vh;min-height:560px;padding:36px 32px 0;display:flex;flex-direction:column;}
     .parts{flex:1;min-height:0;display:grid;grid-template-columns:340px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:40px;}
     .main{min-height:0;overflow-y:auto;padding:2px;margin:-2px;}
     footer{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:4px 16px;margin-top:12px;padding:12px 0;}
@@ -159,7 +159,7 @@
     /* order: title → controls → stats → latest draws → tapped-number detail */
     .rangetabs{order:1;} .controls{order:2;} #hotChip{order:3;} #coldChip{order:4;} .recent{order:5;} .grid-detail{order:6;}
     .sorttabs{order:-1;}
-    .counts .chip .numbers{font-size:14px;}
+    .counts .chip .nums{font-size:14px;}
     .rangetabs{margin:0;}
     .controls{flex-direction:column;margin:0;}
     .sorttabs .tab,.rangetabs .tab{padding:10px;}
@@ -183,7 +183,7 @@
   }
   /* short desktop windows: tighten the sidebar so everything still fits */
   @media (min-width: 960px) and (max-height: 760px) {
-    .page{padding-top:24px;}
+    .wrap{padding-top:24px;}
     .side{gap:8px;}
     .info{margin-top:-4px;}
     .counts .chip{padding:8px 12px;}
@@ -197,7 +197,7 @@
 </style>
 </head>
 <body>
-<div class="page">
+<div class="wrap">
 <div class="parts">
 <div class="side">
 
@@ -209,8 +209,8 @@
   </header>
 
   <div class="counts">
-    <div class="chip hot" id="hotChip" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="numbers" id="hotNumbers">…</span></div>
-    <div class="chip cold" id="coldChip" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="numbers" id="coldNumbers">…</span></div>
+    <div class="chip hot" id="hotChip" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="nums" id="hotNums">…</span></div>
+    <div class="chip cold" id="coldChip" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="nums" id="coldNums">…</span></div>
   </div>
 
   <div class="rangetabs" role="tablist">
@@ -224,7 +224,7 @@
     <div class="sorttabs" role="tablist">
       <button class="tab active" data-sort="map">แผนผัง</button>
       <button class="tab" data-sort="often">ความถี่</button>
-      <button class="tab" data-sort="number">เลข</button>
+      <button class="tab" data-sort="num">เลข</button>
     </div>
   </div>
 
@@ -285,8 +285,8 @@ function chosenDraws() {
   return allDraws.filter(([date]) => date >= cutoffISO).sort((first, second) => first[0] < second[0] ? -1 : 1);
 }
 
-function toggleDetail(number, dates) {
-  const element = document.getElementById('detail-' + number);
+function toggleDetail(num, dates) {
+  const element = document.getElementById('detail-' + num);
   const row = element.previousElementSibling;
   if (openDetail && openDetail !== element) {
     openDetail.classList.remove('open');
@@ -309,29 +309,29 @@ function toggleDetail(number, dates) {
 
 const bigScreen = window.matchMedia('(min-width: 960px)');
 const chipPreview = () => bigScreen.matches ? 10 : 4;
-const chipData = { hotNumbers: [], coldNumbers: [] };
-const chipExpanded = { hotNumbers: false, coldNumbers: false };
+const chipData = { hotNums: [], coldNums: [] };
+const chipExpanded = { hotNums: false, coldNums: false };
 
-function renderChip(elementId, numbers, emptyText) {
-  chipData[elementId] = numbers;
+function renderChip(elementId, nums, emptyText) {
+  chipData[elementId] = nums;
   const element = document.getElementById(elementId);
-  if (!numbers.length) { element.textContent = emptyText; return; }
+  if (!nums.length) { element.textContent = emptyText; return; }
   const isOpen = chipExpanded[elementId];
-  const shown = isOpen ? numbers : numbers.slice(0, chipPreview());
-  const rest = numbers.length - shown.length;
-  let html = '<span class="items">' + shown.map((number) => '<span class="item">' + number + '</span>').join(' ') + '</span>';
+  const shown = isOpen ? nums : nums.slice(0, chipPreview());
+  const rest = nums.length - shown.length;
+  let html = '<span class="items">' + shown.map((num) => '<span class="item">' + num + '</span>').join(' ') + '</span>';
   if (rest > 0) html += '<span class="more">+' + rest + ' แตะดูทั้งหมด</span>';
-  else if (isOpen && numbers.length > chipPreview()) html += '<span class="more">แตะเพื่อย่อ</span>';
+  else if (isOpen && nums.length > chipPreview()) html += '<span class="more">แตะเพื่อย่อ</span>';
   element.innerHTML = html;
 }
 
 ['hotChip', 'coldChip'].forEach((chipId) => {
   const chip = document.getElementById(chipId);
   const toggleChip = () => {
-    const numbersId = chipId === 'hotChip' ? 'hotNumbers' : 'coldNumbers';
-    chipExpanded[numbersId] = !chipExpanded[numbersId];
-    chip.setAttribute('aria-expanded', String(chipExpanded[numbersId]));
-    renderChip(numbersId, chipData[numbersId], numbersId === 'hotNumbers' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
+    const numsId = chipId === 'hotChip' ? 'hotNums' : 'coldNums';
+    chipExpanded[numsId] = !chipExpanded[numsId];
+    chip.setAttribute('aria-expanded', String(chipExpanded[numsId]));
+    renderChip(numsId, chipData[numsId], numsId === 'hotNums' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
   };
   chip.addEventListener('click', toggleChip);
   chip.addEventListener('keydown', (event) => {
@@ -346,7 +346,7 @@ function render() {
   const latestElement = document.getElementById('latest');
   if (allDraws.length) {
     const last = allDraws[allDraws.length-1];
-    latestElement.innerHTML = '<span class="label">ผลที่ออกแล้ว · งวด ' + formatThaiDate(last[0]) + '</span>' + last[1];
+    latestElement.innerHTML = '<span class="lbl">ผลที่ออกแล้ว · งวด ' + formatThaiDate(last[0]) + '</span>' + last[1];
   } else {
     latestElement.innerHTML = '';
   }
@@ -354,8 +354,8 @@ function render() {
   if (!allDraws.length) {
     document.getElementById('info').textContent = 'ไม่มีข้อมูลพร้อมใช้งาน';
     document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด';
-    renderChip('hotNumbers', [], 'ไม่มีข้อมูล');
-    renderChip('coldNumbers', [], 'ไม่มีข้อมูล');
+    renderChip('hotNums', [], 'ไม่มีข้อมูล');
+    renderChip('coldNums', [], 'ไม่มีข้อมูล');
     gridEl.textContent = '';
     document.getElementById('recent').hidden = true;
     gridDetail.hidden = true;
@@ -372,21 +372,21 @@ function render() {
   recentElement.hidden = false;
 
   const chosen = chosenDraws();
-  const byNumber = {};
-  for (let index = 0; index < 100; index++) byNumber[String(index).padStart(2,'0')] = [];
-  chosen.forEach(([date, value]) => { if (byNumber[value]) byNumber[value].push(date); });
-  const items = Object.entries(byNumber).map(([number, dates]) => [number, dates.length, dates]);
+  const byNum = {};
+  for (let index = 0; index < 100; index++) byNum[String(index).padStart(2,'0')] = [];
+  chosen.forEach(([date, value]) => { if (byNum[value]) byNum[value].push(date); });
+  const items = Object.entries(byNum).map(([num, dates]) => [num, dates.length, dates]);
   const largestCount = items.reduce((most, [, count]) => Math.max(most, count), 0);
 
   document.getElementById('info').textContent = chosen.length
     ? formatThaiDate(chosen[0][0]) + ' – ' + formatThaiDate(chosen[chosen.length-1][0]) + ' · รวม ' + chosen.length + ' งวด'
     : 'ไม่มีข้อมูลในช่วงที่เลือก';
 
-  const hot = items.filter(([, count]) => count === largestCount && count > 0).map(([number]) => number);
-  const cold = items.filter(([, count]) => count === 0).map(([number]) => number);
+  const hot = items.filter(([, count]) => count === largestCount && count > 0).map(([num]) => num);
+  const cold = items.filter(([, count]) => count === 0).map(([num]) => num);
   document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด · ' + largestCount + ' ครั้ง';
-  renderChip('hotNumbers', hot, '—');
-  renderChip('coldNumbers', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
+  renderChip('hotNums', hot, '—');
+  renderChip('coldNums', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
 
   const showMap = currentShow === 'map';
   document.getElementById('gridCard').hidden = !showMap;
@@ -399,41 +399,41 @@ function render() {
     return;
   }
 
-  const sorted = currentShow === 'number'
+  const sorted = currentShow === 'num'
     ? items.slice().sort((first, second) => first[0].localeCompare(second[0]))
     : items.slice().sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0]));
 
   const frag = document.createDocumentFragment();
   let lastCount = null;
   openDetail = null;
-  sorted.forEach(([number, count, dates]) => {
+  sorted.forEach(([num, count, dates]) => {
     if (currentShow === 'often' && count !== lastCount) {
-      const label = document.createElement('div');
-      label.className = 'tier-label';
-      label.textContent = count + ' ครั้ง' + (count === largestCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
-      frag.appendChild(label);
+      const lbl = document.createElement('div');
+      lbl.className = 'tier-label';
+      lbl.textContent = count + ' ครั้ง' + (count === largestCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
+      frag.appendChild(lbl);
       lastCount = count;
     }
     const row = document.createElement('div');
     row.className = 'row' + (count === largestCount && largestCount > 0 ? ' gold' : '') + (count === 0 ? ' zero' : '');
-    row.dataset.number = number;
+    row.dataset.num = num;
     row.setAttribute('role', 'button');
     row.setAttribute('tabindex', '0');
     row.setAttribute('aria-expanded', 'false');
-    row.setAttribute('aria-controls', 'detail-' + number);
+    row.setAttribute('aria-controls', 'detail-' + num);
     const percent = largestCount > 0 ? (count / largestCount * 100).toFixed(1) : 0;
-    row.innerHTML = '<span class="number">' + number + '</span><div class="track"><div class="fill" style="width:' + percent + '%"></div></div><span class="count">' + count + '</span>';
-    row.addEventListener('click', () => toggleDetail(number, dates));
+    row.innerHTML = '<span class="num">' + num + '</span><div class="track"><div class="fill" style="width:' + percent + '%"></div></div><span class="count">' + count + '</span>';
+    row.addEventListener('click', () => toggleDetail(num, dates));
     row.addEventListener('keydown', (event) => {
       if (event.legend === 'Enter' || event.legend === ' ') {
         event.preventDefault();
-        toggleDetail(number, dates);
+        toggleDetail(num, dates);
       }
     });
     frag.appendChild(row);
     const detail = document.createElement('div');
     detail.className = 'detail';
-    detail.id = 'detail-' + number;
+    detail.id = 'detail-' + num;
     frag.appendChild(detail);
   });
   list.innerHTML = '';
@@ -455,34 +455,34 @@ function putDetail() {
   else document.getElementById('gridCard').appendChild(gridDetail);
   if (!chosenCell) clearDetail();
 }
-bigScreen.addEventListener('change', () => { putDetail(); renderChip('hotNumbers', chipData.hotNumbers, '—'); renderChip('coldNumbers', chipData.coldNumbers, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
+bigScreen.addEventListener('change', () => { putDetail(); renderChip('hotNums', chipData.hotNums, '—'); renderChip('coldNums', chipData.coldNums, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
 
 function renderGrid(items, largestCount) {
   document.getElementById('legendMax').textContent = largestCount + ' ครั้ง';
   const frag = document.createDocumentFragment();
   chosenCell = null;
   clearDetail();
-  items.forEach(([number, count, dates]) => {
+  items.forEach(([num, count, dates]) => {
     const level = count === 0 ? 0 : Math.max(1, Math.ceil(count / largestCount * 4));
     const cell = document.createElement('button');
     cell.type = 'button';
     cell.className = 'cell';
-    cell.dataset.number = number;
+    cell.dataset.num = num;
     cell.dataset.level = level;
-    cell.textContent = number;
-    cell.setAttribute('aria-label', number + ' ออก ' + count + ' ครั้ง');
+    cell.textContent = num;
+    cell.setAttribute('aria-label', num + ' ออก ' + count + ' ครั้ง');
     cell.addEventListener('click', () => {
       if (chosenCell === cell) {
-        cell.classList.remove('chosen');
+        cell.classList.remove('sel');
         chosenCell = null;
         clearDetail();
         return;
       }
-      if (chosenCell) chosenCell.classList.remove('chosen');
-      cell.classList.add('chosen');
+      if (chosenCell) chosenCell.classList.remove('sel');
+      cell.classList.add('sel');
       chosenCell = cell;
       gridDetail.className = 'grid-detail';
-      gridDetail.innerHTML = '<b>' + number + '</b>ออก ' + count + ' ครั้ง' +
+      gridDetail.innerHTML = '<b>' + num + '</b>ออก ' + count + ' ครั้ง' +
         (dates.length ? '<br>' + dates.slice().reverse().map(formatThaiDate).join(' · ') : ' ในช่วงที่เลือก');
       gridDetail.hidden = false;
       if (!bigScreen.matches) gridDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -534,8 +534,8 @@ function tryMove(text) {
   const element = (currentShow === 'map' ? gridEl : list).querySelector('[data-number="' + value + '"]');
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    element.classList.add('found');
-    setTimeout(() => element.classList.remove('found'), 1200);
+    element.classList.add('hit');
+    setTimeout(() => element.classList.remove('hit'), 1200);
   }
 }
 const searchElement = document.getElementById('search');
