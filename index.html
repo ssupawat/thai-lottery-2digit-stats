@@ -29,202 +29,202 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
 <style>
-  /* Untitled UI–style tokens */
+  /* Colour and shadow values */
   :root{
-    --bg:#FFFFFF; --bg-subtle:#F9FAFB; --bg-muted:#F2F4F7;
+    --background:#FFFFFF; --background-light:#F9FAFB; --background-soft:#F2F4F7;
     --text:#101828; --text-2:#344054; --text-3:#475467; --text-4:#667085;
     --border:#EAECF0; --border-2:#D0D5DD;
-    --brand-25:#FCFAFF; --brand-50:#F9F5FF; --brand-100:#F4EBFF; --brand-200:#E9D7FE; --brand-300:#D6BBFB;
-    --brand-500:#9E77ED; --brand-600:#7F56D9; --brand-700:#6941C6;
-    --shadow-xs:0 1px 2px rgba(16,24,40,.05);
-    --shadow-sm:0 1px 3px rgba(16,24,40,.1),0 1px 2px rgba(16,24,40,.06);
-    --ring:0 0 0 4px rgba(158,119,237,.24);
+    --main-25:#FCFAFF; --main-50:#F9F5FF; --main-100:#F4EBFF; --main-200:#E9D7FE; --main-300:#D6BBFB;
+    --main-500:#9E77ED; --main-600:#7F56D9; --main-700:#6941C6;
+    --shadow-small:0 1px 2px rgba(16,24,40,.05);
+    --shadow-medium:0 1px 3px rgba(16,24,40,.1),0 1px 2px rgba(16,24,40,.06);
+    --focus-line:0 0 0 4px rgba(158,119,237,.24);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{background:var(--bg-subtle);color:var(--text);
+  body{background:var(--background-light);color:var(--text);
     font-family:'Inter','Sukhumvit Set','Leelawadee UI','Noto Sans Thai','Segoe UI',system-ui,sans-serif;
     -webkit-font-smoothing:antialiased;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);overflow-x:hidden;}
-  .wrap{max-width:640px;margin:0 auto;padding:24px 16px 48px;position:relative;}
+  .page{max-width:640px;margin:0 auto;padding:24px 16px 48px;position:relative;}
 
   header{text-align:center;padding:16px 4px 20px;}
   h1{font-size:26px;line-height:34px;margin:0 0 4px;font-weight:600;letter-spacing:-.02em;color:var(--text);}
-  .meta{font-size:14px;color:var(--text-3);line-height:20px;}
-  .latest{margin:16px auto 0;display:inline-block;min-width:160px;padding:12px 24px;background:var(--bg);border:1px solid var(--border);
-    border-radius:12px;box-shadow:var(--shadow-xs);font-size:28px;font-weight:600;letter-spacing:.04em;color:var(--text-2);line-height:36px;}
+  .info{font-size:14px;color:var(--text-3);line-height:20px;}
+  .latest{margin:16px auto 0;display:inline-block;min-width:160px;padding:12px 24px;background:var(--background);border:1px solid var(--border);
+    border-radius:12px;box-shadow:var(--shadow-small);font-size:28px;font-weight:600;letter-spacing:.04em;color:var(--text-2);line-height:36px;}
   .latest:empty{display:none;}
-  .latest .lbl{display:block;font-size:12px;font-weight:500;color:var(--text-4);letter-spacing:0;line-height:18px;}
+  .latest .label{display:block;font-size:12px;font-weight:500;color:var(--text-4);letter-spacing:0;line-height:18px;}
 
-  .chips{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 16px;}
-  .chip{flex:1;min-width:150px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px 16px;cursor:pointer;box-shadow:var(--shadow-xs);}
-  .chip b{display:block;font-size:12px;font-weight:500;color:var(--text-4);margin-bottom:6px;line-height:18px;}
-  .chip:focus-visible{outline:none;box-shadow:var(--ring);border-color:var(--brand-300);}
-  .chip .nums{font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:14px;line-height:20px;color:var(--text-2);}
-  .chip.hot .nums{color:var(--brand-700);} .chip.cold .nums{color:var(--text-3);}
-  .n{white-space:nowrap;}
-  .ns .n:not(:last-child)::after{content:' ·';}
-  .chip .more{display:block;font-size:12px;font-weight:500;color:var(--brand-600);margin-top:6px;}
+  .boxes{display:flex;gap:12px;flex-wrap:wrap;margin:0 0 16px;}
+  .box{flex:1;min-width:150px;background:var(--background);border:1px solid var(--border);border-radius:12px;padding:12px 16px;cursor:pointer;box-shadow:var(--shadow-small);}
+  .box b{display:block;font-size:12px;font-weight:500;color:var(--text-4);margin-bottom:6px;line-height:18px;}
+  .box:focus-visible{outline:none;box-shadow:var(--focus-line);border-color:var(--main-300);}
+  .box .numbers{font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em;font-size:14px;line-height:20px;color:var(--text-2);}
+  .box.hot .numbers{color:var(--main-700);} .box.cold .numbers{color:var(--text-3);}
+  .item{white-space:nowrap;}
+  .items .item:not(:last-child)::after{content:' ·';}
+  .box .more{display:block;font-size:12px;font-weight:500;color:var(--main-600);margin-top:6px;}
 
-  .rangetabs,.sorttabs{display:flex;background:var(--bg-muted);border:1px solid var(--border);border-radius:8px;padding:2px;gap:2px;}
-  .rangetabs{margin-bottom:12px;}
+  .yearbuttons,.showbuttons{display:flex;background:var(--background-soft);border:1px solid var(--border);border-radius:8px;padding:2px;gap:2px;}
+  .yearbuttons{margin-bottom:12px;}
   .controls{display:flex;gap:12px;margin:0 0 20px;align-items:stretch;}
-  #search{flex:1;min-width:0;padding:10px 14px;border:1px solid var(--border-2);border-radius:8px;box-shadow:var(--shadow-xs);
-    background:var(--bg);color:var(--text);font-size:16px;line-height:24px;font-family:inherit;font-weight:500;font-variant-numeric:tabular-nums;}
+  #search{flex:1;min-width:0;padding:10px 14px;border:1px solid var(--border-2);border-radius:8px;box-shadow:var(--shadow-small);
+    background:var(--background);color:var(--text);font-size:16px;line-height:24px;font-family:inherit;font-weight:500;font-variant-numeric:tabular-nums;}
   #search::placeholder{color:var(--text-4);font-weight:400;}
-  #search:focus{outline:none;border-color:var(--brand-300);box-shadow:var(--ring);}
-  .tab{flex:1;border:none;background:transparent;color:var(--text-4);font-family:inherit;font-size:14px;line-height:20px;
+  #search:focus{outline:none;border-color:var(--main-300);box-shadow:var(--focus-line);}
+  .choice{flex:1;border:none;background:transparent;color:var(--text-4);font-family:inherit;font-size:14px;line-height:20px;
     font-weight:600;padding:12px;border-radius:6px;cursor:pointer;white-space:nowrap;}
-  .tab:hover{color:var(--text-2);}
-  .tab:focus-visible{outline:none;box-shadow:var(--ring);}
-  .tab.active{background:var(--bg);color:var(--text-2);box-shadow:var(--shadow-sm);}
+  .choice:hover{color:var(--text-2);}
+  .choice:focus-visible{outline:none;box-shadow:var(--focus-line);}
+  .choice.active{background:var(--background);color:var(--text-2);box-shadow:var(--shadow-medium);}
 
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px;}
-  .stats .chip{min-width:0;}
-  .stats .chip .nums{font-size:13px;word-break:break-word;}
+  .counts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px;}
+  .counts .box{min-width:0;}
+  .counts .box .numbers{font-size:13px;word-break:break-word;}
 
-  .grid-card{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px;}
-  #grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
+  .table-card{background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:16px;}
+  #table{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
   .cell{position:relative;aspect-ratio:1;min-width:0;border:1px solid transparent;border-radius:6px;padding:0;cursor:pointer;
     font-family:inherit;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text-2);
-    background:var(--bg-muted);display:flex;align-items:center;justify-content:center;}
-  .cell[data-level="0"]{background:var(--bg);border:1px dashed var(--border-2);color:var(--text-4);font-weight:500;}
-  .cell[data-level="1"]{background:var(--brand-100);color:var(--brand-700);}
-  .cell[data-level="2"]{background:var(--brand-200);color:var(--brand-700);}
-  .cell[data-level="3"]{background:var(--brand-500);color:#fff;}
-  .cell[data-level="4"]{background:var(--brand-600);color:#fff;}
-  .cell:hover{transform:scale(1.08);z-index:1;box-shadow:var(--shadow-sm);}
-  .cell:focus-visible{outline:none;box-shadow:var(--ring);z-index:1;}
-  .cell.sel{outline:2px solid var(--text);outline-offset:1px;z-index:1;}
-  .cell.hit{outline:2px solid var(--brand-600);outline-offset:2px;z-index:1;}
-  .legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:12px;font-size:12px;color:var(--text-4);}
-  .legend i{width:14px;height:14px;border-radius:4px;display:inline-block;}
-  .legend .l0{background:var(--bg);border:1px dashed var(--border-2);}
-  .legend .l1{background:var(--brand-100);} .legend .l2{background:var(--brand-200);}
-  .legend .l3{background:var(--brand-500);} .legend .l4{background:var(--brand-600);}
-  .grid-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--brand-25);border:1px solid var(--brand-100);font-size:13px;color:var(--text-3);line-height:1.7;}
-  .grid-detail b{color:var(--text);font-size:16px;margin-right:6px;}
+    background:var(--background-soft);display:flex;align-items:center;justify-content:center;}
+  .cell[data-level="0"]{background:var(--background);border:1px dashed var(--border-2);color:var(--text-4);font-weight:500;}
+  .cell[data-level="1"]{background:var(--main-100);color:var(--main-700);}
+  .cell[data-level="2"]{background:var(--main-200);color:var(--main-700);}
+  .cell[data-level="3"]{background:var(--main-500);color:#fff;}
+  .cell[data-level="4"]{background:var(--main-600);color:#fff;}
+  .cell:hover{transform:scale(1.08);z-index:1;box-shadow:var(--shadow-medium);}
+  .cell:focus-visible{outline:none;box-shadow:var(--focus-line);z-index:1;}
+  .cell.chosen{outline:2px solid var(--text);outline-offset:1px;z-index:1;}
+  .cell.found{outline:2px solid var(--main-600);outline-offset:2px;z-index:1;}
+  .key{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:12px;font-size:12px;color:var(--text-4);}
+  .key i{width:14px;height:14px;border-radius:4px;display:inline-block;}
+  .key .level-0{background:var(--background);border:1px dashed var(--border-2);}
+  .key .level-1{background:var(--main-100);} .key .level-2{background:var(--main-200);}
+  .key .level-3{background:var(--main-500);} .key .level-4{background:var(--main-600);}
+  .table-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--main-25);border:1px solid var(--main-100);font-size:13px;color:var(--text-3);line-height:1.7;}
+  .table-detail b{color:var(--text);font-size:16px;margin-right:6px;}
   .recent{display:none;}
   [hidden]{display:none !important;}
-  @media (min-width:720px){#grid{gap:6px;} .cell{font-size:14px;}}
+  @media (min-width:720px){#table{gap:6px;} .cell{font-size:14px;}}
 
-  .tier-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--text-4);margin:20px 4px 6px;}
-  .tier-label::after{content:"";flex:1;height:1px;background:var(--border);}
-  .tier-label:first-of-type{margin-top:0;}
+  .group-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--text-4);margin:20px 4px 6px;}
+  .group-label::after{content:"";flex:1;height:1px;background:var(--border);}
+  .group-label:first-of-type{margin-top:0;}
 
   .row{display:flex;align-items:center;gap:12px;padding:6px 10px;border-radius:8px;scroll-margin:70px;cursor:pointer;}
-  .row:hover{background:var(--bg-muted);}
-  .row.hit{background:var(--brand-50);}
-  .row:focus-visible{outline:none;box-shadow:var(--ring);}
-  .num{width:32px;flex:0 0 auto;text-align:right;font-weight:600;font-variant-numeric:tabular-nums;font-size:14px;color:var(--text-2);}
-  .track{flex:1;height:8px;background:var(--bg-muted);border-radius:4px;overflow:hidden;}
-  .row.hit .track{background:var(--brand-100);}
-  .fill{height:100%;background:var(--brand-300);border-radius:4px;}
-  .row.gold .fill{background:var(--brand-600);}
-  .row.zero .num{opacity:.5;}
-  .cnt{width:20px;flex:0 0 auto;font-size:12px;font-weight:500;color:var(--text-4);font-variant-numeric:tabular-nums;}
-  .detail{display:none;font-size:12px;color:var(--text-3);background:var(--bg);border:1px solid var(--border);border-radius:8px;
+  .row:hover{background:var(--background-soft);}
+  .row.found{background:var(--main-50);}
+  .row:focus-visible{outline:none;box-shadow:var(--focus-line);}
+  .number{width:32px;flex:0 0 auto;text-align:right;font-weight:600;font-variant-numeric:tabular-nums;font-size:14px;color:var(--text-2);}
+  .track{flex:1;height:8px;background:var(--background-soft);border-radius:4px;overflow:hidden;}
+  .row.found .track{background:var(--main-100);}
+  .fill{height:100%;background:var(--main-300);border-radius:4px;}
+  .row.gold .fill{background:var(--main-600);}
+  .row.zero .number{opacity:.5;}
+  .count{width:20px;flex:0 0 auto;font-size:12px;font-weight:500;color:var(--text-4);font-variant-numeric:tabular-nums;}
+  .detail{display:none;font-size:12px;color:var(--text-3);background:var(--background);border:1px solid var(--border);border-radius:8px;
     padding:0;margin:0 2px;line-height:1.7;}
-  .detail.open{display:block;padding:10px 12px;margin:2px 2px 8px;box-shadow:var(--shadow-xs);}
+  .detail.open{display:block;padding:10px 12px;margin:2px 2px 8px;box-shadow:var(--shadow-small);}
 
   footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--text-4);text-align:center;line-height:18px;}
-  .site-link{margin-top:12px;}
-  .site-link a{color:var(--brand-600);font-weight:600;text-decoration:none;}
-  .site-link a:hover{color:var(--brand-700);}
-  .stale-note{display:none;font-size:12px;font-weight:500;color:#B42318;background:#FEF3F2;border:1px solid #FECDCA;border-radius:16px;padding:2px 10px;margin-top:8px;}
-  .stale-note.show{display:inline-block;}
+  .home-link{margin-top:12px;}
+  .home-link a{color:var(--main-600);font-weight:600;text-decoration:none;}
+  .home-link a:hover{color:var(--main-700);}
+  .old-note{display:none;font-size:12px;font-weight:500;color:#B42318;background:#FEF3F2;border:1px solid #FECDCA;border-radius:16px;padding:2px 10px;margin-top:8px;}
+  .old-note.show{display:inline-block;}
 
   @media (min-width: 720px) {
-    .wrap{max-width:720px;}
+    .page{max-width:720px;}
     #list{display:grid;grid-template-columns:1fr 1fr;column-gap:32px;}
-    .tier-label{grid-column:1/-1;}
+    .group-label{grid-column:1/-1;}
     .detail.open{grid-column:1/-1;}
   }
   /* Desktop: controls on the left (sticky), results on the right */
   @media (min-width: 960px) {
     /* desktop = one full-screen view, no page scroll */
-    .wrap{max-width:1120px;height:100vh;min-height:560px;padding:36px 32px 0;display:flex;flex-direction:column;}
-    .layout{flex:1;min-height:0;display:grid;grid-template-columns:340px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:40px;}
+    .page{max-width:1120px;height:100vh;min-height:560px;padding:36px 32px 0;display:flex;flex-direction:column;}
+    .parts{flex:1;min-height:0;display:grid;grid-template-columns:340px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:40px;}
     .main{min-height:0;overflow-y:auto;padding:2px;margin:-2px;}
     footer{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:4px 16px;margin-top:12px;padding:12px 0;}
-    .site-link{margin:0;}
+    .home-link{margin:0;}
     .side{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start;min-height:0;overflow-y:auto;padding:2px;margin:-2px;}
     header{display:contents;}
     h1{grid-column:1/-1;font-size:26px;line-height:34px;text-wrap:balance;text-align:left;margin:0;}
-    .meta{grid-column:1/-1;text-align:left;margin:-8px 0 4px;}
-    .stale-note{grid-column:1/-1;justify-self:start;margin:0;}
+    .info{grid-column:1/-1;text-align:left;margin:-8px 0 4px;}
+    .old-note{grid-column:1/-1;justify-self:start;margin:0;}
     .latest{display:none;}
-    .stats{display:contents;}
-    .stats .chip{margin:0;}
-    #hotChip,#coldChip,.rangetabs,.controls,.grid-detail{grid-column:1/-1;}
+    .counts{display:contents;}
+    .counts .box{margin:0;}
+    #hotBox,#coldBox,.yearbuttons,.controls,.table-detail{grid-column:1/-1;}
     /* order: title → controls → stats → latest draws → tapped-number detail */
-    .rangetabs{order:1;} .controls{order:2;} #hotChip{order:3;} #coldChip{order:4;} .recent{order:5;} .grid-detail{order:6;}
-    .sorttabs{order:-1;}
-    .stats .chip .nums{font-size:14px;}
-    .rangetabs{margin:0;}
+    .yearbuttons{order:1;} .controls{order:2;} #hotBox{order:3;} #coldBox{order:4;} .recent{order:5;} .table-detail{order:6;}
+    .showbuttons{order:-1;}
+    .counts .box .numbers{font-size:14px;}
+    .yearbuttons{margin:0;}
     .controls{flex-direction:column;margin:0;}
-    .sorttabs .tab,.rangetabs .tab{padding:10px;}
-    .grid-detail{margin:0;height:100px;overflow-y:auto;padding:14px 16px;background:var(--bg);border:1px solid var(--border);box-shadow:var(--shadow-xs);}
-    .recent{display:block;grid-column:1/-1;background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:10px 12px;}
+    .showbuttons .choice,.yearbuttons .choice{padding:10px;}
+    .table-detail{margin:0;height:100px;overflow-y:auto;padding:14px 16px;background:var(--background);border:1px solid var(--border);box-shadow:var(--shadow-small);}
+    .recent{display:block;grid-column:1/-1;background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:10px 12px;}
     .recent h2{margin:0 0 6px;font-size:12px;font-weight:500;color:var(--text-4);line-height:18px;}
-    .recent .rl{display:flex;gap:6px;}
-    .recent .r{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0;border-radius:8px;background:var(--bg-subtle);}
-    .recent .r b{font-size:17px;line-height:24px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--text-2);}
-    .recent .r.new{background:var(--brand-50);box-shadow:inset 0 0 0 1px var(--brand-200);}
-    .recent .r.new b{color:var(--brand-700);}
-    .recent .r span{font-size:11px;line-height:16px;color:var(--text-4);white-space:nowrap;}
-    .grid-detail.empty{border-style:dashed;box-shadow:none;background:transparent;color:var(--text-4);}
-    .grid-card{padding:24px;}
+    .recent .recent-list{display:flex;gap:6px;}
+    .recent .result{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0;border-radius:8px;background:var(--background-light);}
+    .recent .result b{font-size:17px;line-height:24px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--text-2);}
+    .recent .result.new{background:var(--main-50);box-shadow:inset 0 0 0 1px var(--main-200);}
+    .recent .result.new b{color:var(--main-700);}
+    .recent .result span{font-size:11px;line-height:16px;color:var(--text-4);white-space:nowrap;}
+    .table-detail.empty{border-style:dashed;box-shadow:none;background:transparent;color:var(--text-4);}
+    .table-card{padding:24px;}
     /* keep the whole 10×10 map inside the viewport height */
-    #grid{gap:8px;max-width:max(360px,calc(100vh - 206px));margin:0 auto;}
-    .legend{max-width:max(360px,calc(100vh - 206px));margin-left:auto;margin-right:auto;}
+    #table{gap:8px;max-width:max(360px,calc(100vh - 206px));margin:0 auto;}
+    .key{max-width:max(360px,calc(100vh - 206px));margin-left:auto;margin-right:auto;}
     .cell{font-size:15px;border-radius:8px;}
-    .legend{margin-top:16px;}
-    #list{background:var(--bg);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-xs);padding:16px 20px;column-gap:40px;}
+    .key{margin-top:16px;}
+    #list{background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:16px 20px;column-gap:40px;}
   }
   /* short desktop windows: tighten the sidebar so everything still fits */
   @media (min-width: 960px) and (max-height: 760px) {
-    .wrap{padding-top:24px;}
+    .page{padding-top:24px;}
     .side{gap:8px;}
-    .meta{margin-top:-4px;}
-    .stats .chip{padding:8px 12px;}
-    .sorttabs .tab,.rangetabs .tab{padding:7px;}
+    .info{margin-top:-4px;}
+    .counts .box{padding:8px 12px;}
+    .showbuttons .choice,.yearbuttons .choice{padding:7px;}
     #search{padding:7px 14px;}
-    .grid-detail{height:90px;padding:10px 14px;}
+    .table-detail{height:90px;padding:10px 14px;}
     .recent{padding:8px 12px;}
-    .recent .r{padding:3px 0;}
+    .recent .result{padding:3px 0;}
   }
   @media (prefers-reduced-motion: reduce){ * { scroll-behavior:auto !important; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-<div class="layout">
+<div class="page">
+<div class="parts">
 <div class="side">
 
   <header>
     <h1>เลขท้าย 2 ตัว ออกอะไรบ่อย?</h1>
-    <div class="meta" id="meta">กำลังโหลด…</div>
+    <div class="info" id="info">กำลังโหลด…</div>
     <div class="latest" id="latest"></div>
-    <div class="stale-note" id="staleNote">โหลดข้อมูลไม่ได้ · เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่</div>
+    <div class="old-note" id="oldNote">โหลดข้อมูลไม่ได้ · เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่</div>
   </header>
 
-  <div class="stats">
-    <div class="chip hot" id="hotChip" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="nums" id="hotNums">…</span></div>
-    <div class="chip cold" id="coldChip" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="nums" id="coldNums">…</span></div>
+  <div class="counts">
+    <div class="box hot" id="hotBox" role="button" tabindex="0" aria-expanded="false"><b id="hotLabel">ออกบ่อยสุด</b><span class="numbers" id="hotNumbers">…</span></div>
+    <div class="box cold" id="coldBox" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="numbers" id="coldNumbers">…</span></div>
   </div>
 
-  <div class="rangetabs" role="tablist">
-    <button class="tab active" data-range="5">5 ปี</button>
-    <button class="tab" data-range="10">10 ปี</button>
-    <button class="tab" data-range="20">20 ปี</button>
+  <div class="yearbuttons" role="tablist">
+    <button class="choice active" data-range="5">5 ปี</button>
+    <button class="choice" data-range="10">10 ปี</button>
+    <button class="choice" data-range="20">20 ปี</button>
   </div>
 
   <div class="controls">
     <input type="search" id="search" placeholder="ค้นเลข เช่น 14" inputmode="numeric" maxlength="2" autocomplete="off">
-    <div class="sorttabs" role="tablist">
-      <button class="tab active" data-sort="map">แผนผัง</button>
-      <button class="tab" data-sort="freq">ความถี่</button>
-      <button class="tab" data-sort="num">เลข</button>
+    <div class="showbuttons" role="tablist">
+      <button class="choice active" data-sort="map">แผนผัง</button>
+      <button class="choice" data-sort="often">ความถี่</button>
+      <button class="choice" data-sort="number">เลข</button>
     </div>
   </div>
 
@@ -233,10 +233,10 @@
 </div>
 <main class="main">
 
-  <div class="grid-card" id="gridCard">
-    <div id="grid" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
-    <div class="legend"><span id="legendMin">0 ครั้ง</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span id="legendMax">–</span></div>
-    <div class="grid-detail" id="gridDetail" hidden></div>
+  <div class="table-card" id="tableCard">
+    <div id="table" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
+    <div class="key"><span id="keyLow">0 ครั้ง</span><i class="level-0"></i><i class="level-1"></i><i class="level-2"></i><i class="level-3"></i><i class="level-4"></i><span id="keyHigh">–</span></div>
+    <div class="table-detail" id="tableDetail" hidden></div>
   </div>
 
   <div id="list" hidden></div>
@@ -244,323 +244,323 @@
 </main>
 </div>
 
-  <footer><span>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span><span id="visitsWrap" hidden> · เข้าชมสะสม: <span id="visits"></span> ครั้ง</span></span><div class="site-link"><a href="https://ssupawat.github.io/">← art.</a></div></footer>
+  <footer><span>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span><span id="visitsBox" hidden> · เข้าชมสะสม: <span id="visits"></span> ครั้ง</span></span><div class="home-link"><a href="https://ssupawat.github.io/">← art.</a></div></footer>
 
 </div>
 
 <script>
-const FALLBACK = {draws: []};
+const EMPTY_DATA = {draws: []};
 
-const thMonths = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-function formatThaiDate(iso) {
-  const [y,m,d] = iso.split('-').map(Number);
-  return d + ' ' + thMonths[m-1] + ' ' + (y+543);
+const thaiMonths = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function formatThaiDate(text) {
+  const [year, month, day] = text.split('-').map(Number);
+  return day + ' ' + thaiMonths[month-1] + ' ' + (year+543);
 }
 
-function formatThaiCheckedDate(ms) {
-  const d = new Date(ms);
-  return d.getDate() + ' ' + thMonths[d.getMonth()] + ' ' + (d.getFullYear()+543);
+function formatThaiCheckedDate(time) {
+  const date = new Date(time);
+  return date.getDate() + ' ' + thaiMonths[date.getMonth()] + ' ' + (date.getFullYear()+543);
 }
 
 let allDraws = [];
-let currentRangeYears = 5;
-let currentSort = 'map';
-let selectedCell = null;
-let openDetailEl = null;
+let currentYears = 5;
+let currentShow = 'map';
+let chosenCell = null;
+let openDetail = null;
 const list = document.getElementById('list');
-const gridEl = document.getElementById('grid');
-const gridDetail = document.getElementById('gridDetail');
+const tableElement = document.getElementById('table');
+const tableDetail = document.getElementById('tableDetail');
 
-function localISODate(date) {
+function localDateText(date) {
   const year = String(date.getFullYear()).padStart(4, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
   return year + '-' + month + '-' + day;
 }
 
-function filteredDraws() {
-  const cutoff = new Date();
-  cutoff.setFullYear(cutoff.getFullYear() - currentRangeYears);
-  const cutoffISO = localISODate(cutoff);
-  return allDraws.filter(([d]) => d >= cutoffISO).sort((a,b) => a[0] < b[0] ? -1 : 1);
+function chosenDraws() {
+  const limit = new Date();
+  limit.setFullYear(limit.getFullYear() - currentYears);
+  const limitText = localDateText(limit);
+  return allDraws.filter(([date]) => date >= limitText).sort((first, second) => first[0] < second[0] ? -1 : 1);
 }
 
-function toggleDetail(num, dates) {
-  const el = document.getElementById('detail-' + num);
-  const row = el.previousElementSibling;
-  if (openDetailEl && openDetailEl !== el) {
-    openDetailEl.classList.remove('open');
-    openDetailEl.textContent = '';
-    const previousRow = openDetailEl.previousElementSibling;
-    if (previousRow) previousRow.setAttribute('aria-expanded', 'false');
+function switchDetail(number, dates) {
+  const element = document.getElementById('detail-' + number);
+  const row = element.previousElementSibling;
+  if (openDetail && openDetail !== element) {
+    openDetail.classList.remove('open');
+    openDetail.textContent = '';
+    const earlierRow = openDetail.previousElementSibling;
+    if (earlierRow) earlierRow.setAttribute('aria-expanded', 'false');
   }
-  if (el.classList.contains('open')) {
-    el.classList.remove('open');
-    el.textContent = '';
+  if (element.classList.contains('open')) {
+    element.classList.remove('open');
+    element.textContent = '';
     row.setAttribute('aria-expanded', 'false');
-    openDetailEl = null;
+    openDetail = null;
   } else {
-    el.textContent = dates.length ? dates.slice().reverse().map(formatThaiDate).join(' · ') : 'ไม่เคยออกในช่วงที่เลือก';
-    el.classList.add('open');
+    element.textContent = dates.length ? dates.slice().reverse().map(formatThaiDate).join(' · ') : 'ไม่เคยออกในช่วงที่เลือก';
+    element.classList.add('open');
     row.setAttribute('aria-expanded', 'true');
-    openDetailEl = el;
+    openDetail = element;
   }
 }
 
-const deskMQ = window.matchMedia('(min-width: 960px)');
-const chipPreview = () => deskMQ.matches ? 10 : 4;
-const chipData = { hotNums: [], coldNums: [] };
-const chipExpanded = { hotNums: false, coldNums: false };
+const bigScreen = window.matchMedia('(min-width: 960px)');
+const boxPreview = () => bigScreen.matches ? 10 : 4;
+const boxData = { hotNumbers: [], coldNumbers: [] };
+const boxIsOpen = { hotNumbers: false, coldNumbers: false };
 
-function renderChip(elId, list, emptyText) {
-  chipData[elId] = list;
-  const el = document.getElementById(elId);
-  if (!list.length) { el.textContent = emptyText; return; }
-  const expanded = chipExpanded[elId];
-  const shown = expanded ? list : list.slice(0, chipPreview());
-  const remaining = list.length - shown.length;
-  let html = '<span class="ns">' + shown.map((n) => '<span class="n">' + n + '</span>').join(' ') + '</span>';
-  if (remaining > 0) html += '<span class="more">+' + remaining + ' แตะดูทั้งหมด</span>';
-  else if (expanded && list.length > chipPreview()) html += '<span class="more">แตะเพื่อย่อ</span>';
-  el.innerHTML = html;
+function showBox(elementId, numbers, emptyText) {
+  boxData[elementId] = numbers;
+  const element = document.getElementById(elementId);
+  if (!numbers.length) { element.textContent = emptyText; return; }
+  const isOpen = boxIsOpen[elementId];
+  const shown = isOpen ? numbers : numbers.slice(0, boxPreview());
+  const rest = numbers.length - shown.length;
+  let text = '<span class="items">' + shown.map((number) => '<span class="item">' + number + '</span>').join(' ') + '</span>';
+  if (rest > 0) text += '<span class="more">+' + rest + ' แตะดูทั้งหมด</span>';
+  else if (isOpen && numbers.length > boxPreview()) text += '<span class="more">แตะเพื่อย่อ</span>';
+  element.innerHTML = text;
 }
 
-['hotChip', 'coldChip'].forEach((chipId) => {
-  const chip = document.getElementById(chipId);
-  const toggleChip = () => {
-    const numsId = chipId === 'hotChip' ? 'hotNums' : 'coldNums';
-    chipExpanded[numsId] = !chipExpanded[numsId];
-    chip.setAttribute('aria-expanded', String(chipExpanded[numsId]));
-    renderChip(numsId, chipData[numsId], numsId === 'hotNums' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
+['hotBox', 'coldBox'].forEach((boxId) => {
+  const box = document.getElementById(boxId);
+  const switchBox = () => {
+    const numbersId = boxId === 'hotBox' ? 'hotNumbers' : 'coldNumbers';
+    boxIsOpen[numbersId] = !boxIsOpen[numbersId];
+    box.setAttribute('aria-expanded', String(boxIsOpen[numbersId]));
+    showBox(numbersId, boxData[numbersId], numbersId === 'hotNumbers' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
   };
-  chip.addEventListener('click', toggleChip);
-  chip.addEventListener('keydown', (event) => {
+  box.addEventListener('click', switchBox);
+  box.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      toggleChip();
+      switchBox();
     }
   });
 });
 
-function render() {
-  const latestEl = document.getElementById('latest');
+function showAll() {
+  const latestElement = document.getElementById('latest');
   if (allDraws.length) {
     const last = allDraws[allDraws.length-1];
-    latestEl.innerHTML = '<span class="lbl">ผลที่ออกแล้ว · งวด ' + formatThaiDate(last[0]) + '</span>' + last[1];
+    latestElement.innerHTML = '<span class="label">ผลที่ออกแล้ว · งวด ' + formatThaiDate(last[0]) + '</span>' + last[1];
   } else {
-    latestEl.innerHTML = '';
+    latestElement.innerHTML = '';
   }
 
   if (!allDraws.length) {
-    document.getElementById('meta').textContent = 'ไม่มีข้อมูลพร้อมใช้งาน';
+    document.getElementById('info').textContent = 'ไม่มีข้อมูลพร้อมใช้งาน';
     document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด';
-    renderChip('hotNums', [], 'ไม่มีข้อมูล');
-    renderChip('coldNums', [], 'ไม่มีข้อมูล');
-    gridEl.textContent = '';
+    showBox('hotNumbers', [], 'ไม่มีข้อมูล');
+    showBox('coldNumbers', [], 'ไม่มีข้อมูล');
+    tableElement.textContent = '';
     document.getElementById('recent').hidden = true;
-    gridDetail.hidden = true;
-    document.getElementById('gridCard').hidden = true;
+    tableDetail.hidden = true;
+    document.getElementById('tableCard').hidden = true;
     list.hidden = false;
     list.textContent = 'เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่';
-    openDetailEl = null;
+    openDetail = null;
     return;
   }
 
-  const recentEl = document.getElementById('recent');
-  recentEl.innerHTML = '<h2>ผลล่าสุด 5 งวด</h2><div class="rl">' + allDraws.slice(-5).reverse().map(([d, v], i) =>
-    '<div class="r' + (i === 0 ? ' new' : '') + '" title="' + formatThaiDate(d) + '"><b>' + v + '</b><span>' + formatThaiDate(d).replace(/ \d+$/, '') + '</span></div>').join('') + '</div>';
-  recentEl.hidden = false;
+  const recentElement = document.getElementById('recent');
+  recentElement.innerHTML = '<h2>ผลล่าสุด 5 งวด</h2><div class="recent-list">' + allDraws.slice(-5).reverse().map(([date, value], index) =>
+    '<div class="result' + (index === 0 ? ' new' : '') + '" title="' + formatThaiDate(date) + '"><b>' + value + '</b><span>' + formatThaiDate(date).replace(/ \d+$/, '') + '</span></div>').join('') + '</div>';
+  recentElement.hidden = false;
 
-  const filtered = filteredDraws();
-  const byNum = {};
-  for (let i = 0; i < 100; i++) byNum[String(i).padStart(2,'0')] = [];
-  filtered.forEach(([d,v]) => { if (byNum[v]) byNum[v].push(d); });
-  const entries = Object.entries(byNum).map(([num, dates]) => [num, dates.length, dates]);
-  const maxCount = entries.reduce((m,[,c]) => Math.max(m,c), 0);
+  const chosen = chosenDraws();
+  const byNumber = {};
+  for (let index = 0; index < 100; index++) byNumber[String(index).padStart(2,'0')] = [];
+  chosen.forEach(([date, value]) => { if (byNumber[value]) byNumber[value].push(date); });
+  const items = Object.entries(byNumber).map(([number, dates]) => [number, dates.length, dates]);
+  const largestCount = items.reduce((most, [, count]) => Math.max(most, count), 0);
 
-  document.getElementById('meta').textContent = filtered.length
-    ? formatThaiDate(filtered[0][0]) + ' – ' + formatThaiDate(filtered[filtered.length-1][0]) + ' · รวม ' + filtered.length + ' งวด'
+  document.getElementById('info').textContent = chosen.length
+    ? formatThaiDate(chosen[0][0]) + ' – ' + formatThaiDate(chosen[chosen.length-1][0]) + ' · รวม ' + chosen.length + ' งวด'
     : 'ไม่มีข้อมูลในช่วงที่เลือก';
 
-  const hot = entries.filter(([,c]) => c === maxCount && c > 0).map(([n]) => n);
-  const cold = entries.filter(([,c]) => c === 0).map(([n]) => n);
-  document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด · ' + maxCount + ' ครั้ง';
-  renderChip('hotNums', hot, '—');
-  renderChip('coldNums', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
+  const hot = items.filter(([, count]) => count === largestCount && count > 0).map(([number]) => number);
+  const cold = items.filter(([, count]) => count === 0).map(([number]) => number);
+  document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด · ' + largestCount + ' ครั้ง';
+  showBox('hotNumbers', hot, '—');
+  showBox('coldNumbers', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
 
-  const showMap = currentSort === 'map';
-  document.getElementById('gridCard').hidden = !showMap;
+  const showMap = currentShow === 'map';
+  document.getElementById('tableCard').hidden = !showMap;
   list.hidden = showMap;
-  if (!showMap) { selectedCell = null; gridDetail.hidden = true; }
+  if (!showMap) { chosenCell = null; tableDetail.hidden = true; }
   if (showMap) {
-    renderGrid(entries.slice().sort((a,b) => a[0].localeCompare(b[0])), maxCount);
+    showTable(items.slice().sort((first, second) => first[0].localeCompare(second[0])), largestCount);
     list.innerHTML = '';
-    openDetailEl = null;
+    openDetail = null;
     return;
   }
 
-  const sorted = currentSort === 'num'
-    ? entries.slice().sort((a,b) => a[0].localeCompare(b[0]))
-    : entries.slice().sort((a,b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const sorted = currentShow === 'number'
+    ? items.slice().sort((first, second) => first[0].localeCompare(second[0]))
+    : items.slice().sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0]));
 
-  const frag = document.createDocumentFragment();
+  const part = document.createDocumentFragment();
   let lastCount = null;
-  openDetailEl = null;
-  sorted.forEach(([num, count, dates]) => {
-    if (currentSort === 'freq' && count !== lastCount) {
-      const lbl = document.createElement('div');
-      lbl.className = 'tier-label';
-      lbl.textContent = count + ' ครั้ง' + (count === maxCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
-      frag.appendChild(lbl);
+  openDetail = null;
+  sorted.forEach(([number, count, dates]) => {
+    if (currentShow === 'often' && count !== lastCount) {
+      const label = document.createElement('div');
+      label.className = 'group-label';
+      label.textContent = count + ' ครั้ง' + (count === largestCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
+      part.appendChild(label);
       lastCount = count;
     }
     const row = document.createElement('div');
-    row.className = 'row' + (count === maxCount && maxCount > 0 ? ' gold' : '') + (count === 0 ? ' zero' : '');
-    row.dataset.num = num;
+    row.className = 'row' + (count === largestCount && largestCount > 0 ? ' gold' : '') + (count === 0 ? ' zero' : '');
+    row.dataset.number = number;
     row.setAttribute('role', 'button');
     row.setAttribute('tabindex', '0');
     row.setAttribute('aria-expanded', 'false');
-    row.setAttribute('aria-controls', 'detail-' + num);
-    const pct = maxCount > 0 ? (count / maxCount * 100).toFixed(1) : 0;
-    row.innerHTML = '<span class="num">' + num + '</span><div class="track"><div class="fill" style="width:' + pct + '%"></div></div><span class="cnt">' + count + '</span>';
-    row.addEventListener('click', () => toggleDetail(num, dates));
+    row.setAttribute('aria-controls', 'detail-' + number);
+    const percent = largestCount > 0 ? (count / largestCount * 100).toFixed(1) : 0;
+    row.innerHTML = '<span class="number">' + number + '</span><div class="track"><div class="fill" style="width:' + percent + '%"></div></div><span class="count">' + count + '</span>';
+    row.addEventListener('click', () => switchDetail(number, dates));
     row.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        toggleDetail(num, dates);
+        switchDetail(number, dates);
       }
     });
-    frag.appendChild(row);
-    const det = document.createElement('div');
-    det.className = 'detail';
-    det.id = 'detail-' + num;
-    frag.appendChild(det);
+    part.appendChild(row);
+    const detail = document.createElement('div');
+    detail.className = 'detail';
+    detail.id = 'detail-' + number;
+    part.appendChild(detail);
   });
   list.innerHTML = '';
-  list.appendChild(frag);
+  list.appendChild(part);
 }
 
-function resetDetail() {
-  if (deskMQ.matches && currentSort === 'map') {
-    gridDetail.className = 'grid-detail empty';
-    gridDetail.textContent = 'แตะเลขในแผนผังเพื่อดูวันที่ที่เคยออก';
-    gridDetail.hidden = false;
+function clearDetail() {
+  if (bigScreen.matches && currentShow === 'map') {
+    tableDetail.className = 'table-detail empty';
+    tableDetail.textContent = 'แตะเลขในแผนผังเพื่อดูวันที่ที่เคยออก';
+    tableDetail.hidden = false;
   } else {
-    gridDetail.className = 'grid-detail';
-    gridDetail.hidden = true;
+    tableDetail.className = 'table-detail';
+    tableDetail.hidden = true;
   }
 }
-function placeDetail() {
-  if (deskMQ.matches) document.querySelector('.side').insertBefore(gridDetail, document.getElementById('recent'));
-  else document.getElementById('gridCard').appendChild(gridDetail);
-  if (!selectedCell) resetDetail();
+function putDetail() {
+  if (bigScreen.matches) document.querySelector('.side').insertBefore(tableDetail, document.getElementById('recent'));
+  else document.getElementById('tableCard').appendChild(tableDetail);
+  if (!chosenCell) clearDetail();
 }
-deskMQ.addEventListener('change', () => { placeDetail(); renderChip('hotNums', chipData.hotNums, '—'); renderChip('coldNums', chipData.coldNums, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
+bigScreen.addEventListener('change', () => { putDetail(); showBox('hotNumbers', boxData.hotNumbers, '—'); showBox('coldNumbers', boxData.coldNumbers, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
 
-function renderGrid(entries, maxCount) {
-  document.getElementById('legendMax').textContent = maxCount + ' ครั้ง';
-  const frag = document.createDocumentFragment();
-  selectedCell = null;
-  resetDetail();
-  entries.forEach(([num, count, dates]) => {
-    const level = count === 0 ? 0 : Math.max(1, Math.ceil(count / maxCount * 4));
+function showTable(items, largestCount) {
+  document.getElementById('keyHigh').textContent = largestCount + ' ครั้ง';
+  const part = document.createDocumentFragment();
+  chosenCell = null;
+  clearDetail();
+  items.forEach(([number, count, dates]) => {
+    const level = count === 0 ? 0 : Math.max(1, Math.ceil(count / largestCount * 4));
     const cell = document.createElement('button');
     cell.type = 'button';
     cell.className = 'cell';
-    cell.dataset.num = num;
+    cell.dataset.number = number;
     cell.dataset.level = level;
-    cell.textContent = num;
-    cell.setAttribute('aria-label', num + ' ออก ' + count + ' ครั้ง');
+    cell.textContent = number;
+    cell.setAttribute('aria-label', number + ' ออก ' + count + ' ครั้ง');
     cell.addEventListener('click', () => {
-      if (selectedCell === cell) {
-        cell.classList.remove('sel');
-        selectedCell = null;
-        resetDetail();
+      if (chosenCell === cell) {
+        cell.classList.remove('chosen');
+        chosenCell = null;
+        clearDetail();
         return;
       }
-      if (selectedCell) selectedCell.classList.remove('sel');
-      cell.classList.add('sel');
-      selectedCell = cell;
-      gridDetail.className = 'grid-detail';
-      gridDetail.innerHTML = '<b>' + num + '</b>ออก ' + count + ' ครั้ง' +
+      if (chosenCell) chosenCell.classList.remove('chosen');
+      cell.classList.add('chosen');
+      chosenCell = cell;
+      tableDetail.className = 'table-detail';
+      tableDetail.innerHTML = '<b>' + number + '</b>ออก ' + count + ' ครั้ง' +
         (dates.length ? '<br>' + dates.slice().reverse().map(formatThaiDate).join(' · ') : ' ในช่วงที่เลือก');
-      gridDetail.hidden = false;
-      if (!deskMQ.matches) gridDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      tableDetail.hidden = false;
+      if (!bigScreen.matches) tableDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
-    frag.appendChild(cell);
+    part.appendChild(cell);
   });
-  gridEl.innerHTML = '';
-  gridEl.appendChild(frag);
+  tableElement.innerHTML = '';
+  tableElement.appendChild(part);
 }
 
 async function loadData() {
-  let payload;
+  let content;
   try {
-    const res = await fetch('./draws.json');
-    if (!res.ok) throw new Error('http ' + res.status);
-    payload = await res.json();
-    if (!Array.isArray(payload.draws) || payload.draws.length === 0) throw new Error('bad shape');
-  } catch (e) {
-    document.getElementById('staleNote').classList.add('show');
-    payload = FALLBACK;
+    const answer = await fetch('./draws.json');
+    if (!answer.ok) throw new Error('http ' + answer.status);
+    content = await answer.json();
+    if (!Array.isArray(content.draws) || content.draws.length === 0) throw new Error('bad shape');
+  } catch (problem) {
+    document.getElementById('oldNote').classList.add('show');
+    content = EMPTY_DATA;
   }
-  allDraws = payload.draws;
-  document.getElementById('sourceName').textContent = payload.source || '-';
-  document.getElementById('lastChecked').textContent = payload.lastChecked ? formatThaiCheckedDate(payload.lastChecked) : '-';
-  render();
+  allDraws = content.draws;
+  document.getElementById('sourceName').textContent = content.source || '-';
+  document.getElementById('lastChecked').textContent = content.lastChecked ? formatThaiCheckedDate(content.lastChecked) : '-';
+  showAll();
 }
 
-document.querySelectorAll('.rangetabs .tab').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.rangetabs .tab').forEach((b) => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentRangeYears = Number(btn.dataset.range);
-    render();
+document.querySelectorAll('.yearbuttons .choice').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.yearbuttons .choice').forEach((other) => other.classList.remove('active'));
+    button.classList.add('active');
+    currentYears = Number(button.dataset.range);
+    showAll();
   });
 });
-document.querySelectorAll('.sorttabs .tab').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.sorttabs .tab').forEach((b) => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentSort = btn.dataset.sort;
-    render();
+document.querySelectorAll('.showbuttons .choice').forEach((button) => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.showbuttons .choice').forEach((other) => other.classList.remove('active'));
+    button.classList.add('active');
+    currentShow = button.dataset.sort;
+    showAll();
   });
 });
 
-function tryJump(raw) {
-  const digits = raw.replace(/\D/g, '');
+function tryMove(text) {
+  const digits = text.replace(/\D/g, '');
   if (digits.length === 0) return;
-  const v = digits.length === 1 ? '0' + digits : digits.slice(0, 2);
-  const el = (currentSort === 'map' ? gridEl : list).querySelector('[data-num="' + v + '"]');
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    el.classList.add('hit');
-    setTimeout(() => el.classList.remove('hit'), 1200);
+  const value = digits.length === 1 ? '0' + digits : digits.slice(0, 2);
+  const element = (currentShow === 'map' ? tableElement : list).querySelector('[data-number="' + value + '"]');
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    element.classList.add('found');
+    setTimeout(() => element.classList.remove('found'), 1200);
   }
 }
-const searchEl = document.getElementById('search');
-searchEl.addEventListener('input', (e) => { if (e.target.value.replace(/\D/g,'').length === 2) tryJump(e.target.value); });
-searchEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryJump(e.target.value); });
+const searchElement = document.getElementById('search');
+searchElement.addEventListener('input', (event) => { if (event.target.value.replace(/\D/g,'').length === 2) tryMove(event.target.value); });
+searchElement.addEventListener('keydown', (event) => { if (event.key === 'Enter') tryMove(event.target.value); });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
 }
 
-// Cumulative visits from GoatCounter's public counter. Fails silently
-// (offline, blocked, counter disabled): the footer simply omits it.
+// Total visits from GoatCounter's public counter. If it fails (no internet,
+// blocked, counter off), the bottom line simply leaves it out.
 async function loadVisits() {
   try {
-    const res = await fetch('https://2digits.goatcounter.com/counter/TOTAL.json');
-    if (!res.ok) return;
-    const data = await res.json();
-    const n = parseInt(String(data.count).replace(/\D/g, ''), 10);
-    if (!Number.isFinite(n)) return;
-    document.getElementById('visits').textContent = n.toLocaleString('en-US');
-    document.getElementById('visitsWrap').hidden = false;
-  } catch (e) {}
+    const answer = await fetch('https://2digits.goatcounter.com/counter/TOTAL.json');
+    if (!answer.ok) return;
+    const data = await answer.json();
+    const count = parseInt(String(data.count).replace(/\D/g, ''), 10);
+    if (!Number.isFinite(count)) return;
+    document.getElementById('visits').textContent = count.toLocaleString('en-US');
+    document.getElementById('visitsBox').hidden = false;
+  } catch (problem) {}
 }
 
-placeDetail();
+putDetail();
 loadData();
 loadVisits();
 </script>

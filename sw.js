@@ -1,5 +1,5 @@
-const CACHE_NAME = 'lottery-stats-v26';
-const ASSETS = [
+const STORE_NAME = 'lottery-stats-v27';
+const FILES = [
   './',
   './index.html',
   './draws.json',
@@ -11,8 +11,8 @@ const ASSETS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(ASSETS))
+    caches.open(STORE_NAME)
+      .then((store) => store.addAll(FILES))
       .then(() => self.skipWaiting())
   );
 });
@@ -21,7 +21,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
       .then((keys) => Promise.all(
-        keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
+        keys.filter((key) => key !== STORE_NAME).map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
   );
@@ -30,44 +30,44 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  const url = new URL(event.request.url);
+  const address = new URL(event.request.url);
 
-  // Cross-origin requests (e.g. the GoatCounter script and its hit beacon)
-  // go straight to the network: a cached beacon would never be counted.
-  if (url.origin !== self.location.origin) return;
+  // Requests to other websites (for example the GoatCounter script and its count)
+  // go straight to the internet: a saved count would never be counted.
+  if (address.origin !== self.location.origin) return;
 
-  // draws.json changes daily -- go network-first so a launch with a live
-  // connection always shows today's data instead of waiting for the *next*
-  // launch (iOS has no background fetch to refresh the cache in between).
-  // Falls back to the cached copy when the request fails or returns an error.
-  if (url.pathname.endsWith('/draws.json')) {
+  // draws.json changes often -- ask the internet first, so a start with a live
+  // connection always shows today's data instead of waiting for the next
+  // start (iOS can not get new data in the background).
+  // Use the saved copy when the request fails or gives an error.
+  if (address.pathname.endsWith('/draws.json')) {
     event.respondWith(
       fetch(event.request)
-        .then((res) => {
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          return res;
+        .then((answer) => {
+          if (!answer.ok) throw new Error(`HTTP ${answer.status}`);
+          const copy = answer.clone();
+          caches.open(STORE_NAME).then((store) => store.put(event.request, copy));
+          return answer;
         })
         .catch(() => caches.match(event.request))
     );
     return;
   }
 
-  // Everything else: stale-while-revalidate -- serve cached copy instantly,
-  // refresh cache in the background for next launch.
+  // Everything else: show the saved copy at once,
+  // and get a new copy in the background for next time.
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+    caches.match(event.request).then((saved) => {
+      const online = fetch(event.request)
+        .then((answer) => {
+          if (answer && answer.ok) {
+            const copy = answer.clone();
+            caches.open(STORE_NAME).then((store) => store.put(event.request, copy));
           }
-          return res;
+          return answer;
         })
-        .catch(() => cached);
-      return cached || network;
+        .catch(() => saved);
+      return saved || online;
     })
   );
 });
