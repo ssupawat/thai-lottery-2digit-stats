@@ -98,9 +98,9 @@
   .cell.hit{outline:2px solid var(--main-600);outline-offset:2px;z-index:1;}
   .legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:12px;font-size:12px;color:var(--text-4);}
   .legend i{width:14px;height:14px;border-radius:4px;display:inline-block;}
-  .legend .level-0{background:var(--background);border:1px dashed var(--border-2);}
-  .legend .level-1{background:var(--main-100);} .legend .level-2{background:var(--main-200);}
-  .legend .level-3{background:var(--main-500);} .legend .level-4{background:var(--main-600);}
+  .legend .l0{background:var(--background);border:1px dashed var(--border-2);}
+  .legend .l1{background:var(--main-100);} .legend .l2{background:var(--main-200);}
+  .legend .l3{background:var(--main-500);} .legend .l4{background:var(--main-600);}
   .grid-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--main-25);border:1px solid var(--main-100);font-size:13px;color:var(--text-3);line-height:1.7;}
   .grid-detail b{color:var(--text);font-size:16px;margin-right:6px;}
   .recent{display:none;}
@@ -121,15 +121,15 @@
   .fill{height:100%;background:var(--main-300);border-radius:4px;}
   .row.gold .fill{background:var(--main-600);}
   .row.zero .num{opacity:.5;}
-  .count{width:20px;flex:0 0 auto;font-size:12px;font-weight:500;color:var(--text-4);font-variant-numeric:tabular-nums;}
+  .cnt{width:20px;flex:0 0 auto;font-size:12px;font-weight:500;color:var(--text-4);font-variant-numeric:tabular-nums;}
   .detail{display:none;font-size:12px;color:var(--text-3);background:var(--background);border:1px solid var(--border);border-radius:8px;
     padding:0;margin:0 2px;line-height:1.7;}
   .detail.open{display:block;padding:10px 12px;margin:2px 2px 8px;box-shadow:var(--shadow-small);}
 
   footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--border);font-size:12px;color:var(--text-4);text-align:center;line-height:18px;}
-  .home-link{margin-top:12px;}
-  .home-link a{color:var(--main-600);font-weight:600;text-decoration:none;}
-  .home-link a:hover{color:var(--main-700);}
+  .site-link{margin-top:12px;}
+  .site-link a{color:var(--main-600);font-weight:600;text-decoration:none;}
+  .site-link a:hover{color:var(--main-700);}
   .stale-note{display:none;font-size:12px;font-weight:500;color:#B42318;background:#FEF3F2;border:1px solid #FECDCA;border-radius:16px;padding:2px 10px;margin-top:8px;}
   .stale-note.show{display:inline-block;}
 
@@ -146,7 +146,7 @@
     .layout{flex:1;min-height:0;display:grid;grid-template-columns:340px minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:40px;}
     .main{min-height:0;overflow-y:auto;padding:2px;margin:-2px;}
     footer{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:4px 16px;margin-top:12px;padding:12px 0;}
-    .home-link{margin:0;}
+    .site-link{margin:0;}
     .side{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start;min-height:0;overflow-y:auto;padding:2px;margin:-2px;}
     header{display:contents;}
     h1{grid-column:1/-1;font-size:26px;line-height:34px;text-wrap:balance;text-align:left;margin:0;}
@@ -235,7 +235,7 @@
 
   <div class="grid-card" id="gridCard">
     <div id="grid" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
-    <div class="legend"><span id="legendMin">0 ครั้ง</span><i class="level-0"></i><i class="level-1"></i><i class="level-2"></i><i class="level-3"></i><i class="level-4"></i><span id="legendMax">–</span></div>
+    <div class="legend"><span id="legendMin">0 ครั้ง</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span id="legendMax">–</span></div>
     <div class="grid-detail" id="gridDetail" hidden></div>
   </div>
 
@@ -244,7 +244,7 @@
 </main>
 </div>
 
-  <footer><span>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span><span id="visitsBox" hidden> · เข้าชมสะสม: <span id="visits"></span> ครั้ง</span></span><div class="home-link"><a href="https://ssupawat.github.io/">← art.</a></div></footer>
+  <footer><span>แตะที่เลขเพื่อดูวันที่ออกแต่ละครั้ง · ที่มา: <span id="sourceName">-</span> · ตรวจสอบล่าสุด: <span id="lastChecked">-</span><span id="visitsBox" hidden> · เข้าชมสะสม: <span id="visits"></span> ครั้ง</span></span><div class="site-link"><a href="https://ssupawat.github.io/">← art.</a></div></footer>
 
 </div>
 
@@ -422,7 +422,7 @@ function render() {
     row.setAttribute('aria-expanded', 'false');
     row.setAttribute('aria-controls', 'detail-' + num);
     const percent = largestCount > 0 ? (count / largestCount * 100).toFixed(1) : 0;
-    row.innerHTML = '<span class="num">' + num + '</span><div class="track"><div class="fill" style="width:' + percent + '%"></div></div><span class="count">' + count + '</span>';
+    row.innerHTML = '<span class="num">' + num + '</span><div class="track"><div class="fill" style="width:' + percent + '%"></div></div><span class="cnt">' + count + '</span>';
     row.addEventListener('click', () => toggleDetail(num, dates));
     row.addEventListener('keydown', (event) => {
       if (event.legend === 'Enter' || event.legend === ' ') {
@@ -553,7 +553,7 @@ async function loadVisits() {
     const res = await fetch('https://2digits.goatcounter.com/counter/TOTAL.json');
     if (!res.ok) return;
     const data = await res.json();
-    const count = parseInt(String(data.count).replace(/\D/g, ''), 10);
+    const count = parseInt(String(data.cnt).replace(/\D/g, ''), 10);
     if (!Number.isFinite(count)) return;
     document.getElementById('visits').textContent = count.toLocaleString('en-US');
     document.getElementById('visitsBox').hidden = false;
