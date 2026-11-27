@@ -65,25 +65,25 @@
   .items .item:not(:last-child)::after{content:' ·';}
   .box .more{display:block;font-size:12px;font-weight:500;color:var(--main-600);margin-top:6px;}
 
-  .yearbuttons,.showbuttons{display:flex;background:var(--background-soft);border:1px solid var(--border);border-radius:8px;padding:2px;gap:2px;}
-  .yearbuttons{margin-bottom:12px;}
+  .rangetabs,.sorttabs{display:flex;background:var(--background-soft);border:1px solid var(--border);border-radius:8px;padding:2px;gap:2px;}
+  .rangetabs{margin-bottom:12px;}
   .controls{display:flex;gap:12px;margin:0 0 20px;align-items:stretch;}
   #search{flex:1;min-width:0;padding:10px 14px;border:1px solid var(--border-2);border-radius:8px;box-shadow:var(--shadow-small);
     background:var(--background);color:var(--text);font-size:16px;line-height:24px;font-family:inherit;font-weight:500;font-variant-numeric:tabular-nums;}
   #search::placeholder{color:var(--text-4);font-weight:400;}
   #search:focus{outline:none;border-color:var(--main-300);box-shadow:var(--focus-line);}
-  .choice{flex:1;border:none;background:transparent;color:var(--text-4);font-family:inherit;font-size:14px;line-height:20px;
+  .tab{flex:1;border:none;background:transparent;color:var(--text-4);font-family:inherit;font-size:14px;line-height:20px;
     font-weight:600;padding:12px;border-radius:6px;cursor:pointer;white-space:nowrap;}
-  .choice:hover{color:var(--text-2);}
-  .choice:focus-visible{outline:none;box-shadow:var(--focus-line);}
-  .choice.active{background:var(--background);color:var(--text-2);box-shadow:var(--shadow-medium);}
+  .tab:hover{color:var(--text-2);}
+  .tab:focus-visible{outline:none;box-shadow:var(--focus-line);}
+  .tab.active{background:var(--background);color:var(--text-2);box-shadow:var(--shadow-medium);}
 
   .counts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px;}
   .counts .box{min-width:0;}
   .counts .box .numbers{font-size:13px;word-break:break-word;}
 
-  .table-card{background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:16px;}
-  #table{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
+  .grid-card{background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:16px;}
+  #grid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;}
   .cell{position:relative;aspect-ratio:1;min-width:0;border:1px solid transparent;border-radius:6px;padding:0;cursor:pointer;
     font-family:inherit;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--text-2);
     background:var(--background-soft);display:flex;align-items:center;justify-content:center;}
@@ -101,11 +101,11 @@
   .key .level-0{background:var(--background);border:1px dashed var(--border-2);}
   .key .level-1{background:var(--main-100);} .key .level-2{background:var(--main-200);}
   .key .level-3{background:var(--main-500);} .key .level-4{background:var(--main-600);}
-  .table-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--main-25);border:1px solid var(--main-100);font-size:13px;color:var(--text-3);line-height:1.7;}
-  .table-detail b{color:var(--text);font-size:16px;margin-right:6px;}
+  .grid-detail{scroll-margin-bottom:16px;margin-top:12px;padding:12px;border-radius:8px;background:var(--main-25);border:1px solid var(--main-100);font-size:13px;color:var(--text-3);line-height:1.7;}
+  .grid-detail b{color:var(--text);font-size:16px;margin-right:6px;}
   .recent{display:none;}
   [hidden]{display:none !important;}
-  @media (min-width:720px){#table{gap:6px;} .cell{font-size:14px;}}
+  @media (min-width:720px){#grid{gap:6px;} .cell{font-size:14px;}}
 
   .group-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--text-4);margin:20px 4px 6px;}
   .group-label::after{content:"";flex:1;height:1px;background:var(--border);}
@@ -155,15 +155,15 @@
     .latest{display:none;}
     .counts{display:contents;}
     .counts .box{margin:0;}
-    #hotBox,#coldBox,.yearbuttons,.controls,.table-detail{grid-column:1/-1;}
+    #hotBox,#coldBox,.rangetabs,.controls,.grid-detail{grid-column:1/-1;}
     /* order: title → controls → stats → latest draws → tapped-number detail */
-    .yearbuttons{order:1;} .controls{order:2;} #hotBox{order:3;} #coldBox{order:4;} .recent{order:5;} .table-detail{order:6;}
-    .showbuttons{order:-1;}
+    .rangetabs{order:1;} .controls{order:2;} #hotBox{order:3;} #coldBox{order:4;} .recent{order:5;} .grid-detail{order:6;}
+    .sorttabs{order:-1;}
     .counts .box .numbers{font-size:14px;}
-    .yearbuttons{margin:0;}
+    .rangetabs{margin:0;}
     .controls{flex-direction:column;margin:0;}
-    .showbuttons .choice,.yearbuttons .choice{padding:10px;}
-    .table-detail{margin:0;height:100px;overflow-y:auto;padding:14px 16px;background:var(--background);border:1px solid var(--border);box-shadow:var(--shadow-small);}
+    .sorttabs .tab,.rangetabs .tab{padding:10px;}
+    .grid-detail{margin:0;height:100px;overflow-y:auto;padding:14px 16px;background:var(--background);border:1px solid var(--border);box-shadow:var(--shadow-small);}
     .recent{display:block;grid-column:1/-1;background:var(--background);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow-small);padding:10px 12px;}
     .recent h2{margin:0 0 6px;font-size:12px;font-weight:500;color:var(--text-4);line-height:18px;}
     .recent .recent-list{display:flex;gap:6px;}
@@ -172,10 +172,10 @@
     .recent .result.new{background:var(--main-50);box-shadow:inset 0 0 0 1px var(--main-200);}
     .recent .result.new b{color:var(--main-700);}
     .recent .result span{font-size:11px;line-height:16px;color:var(--text-4);white-space:nowrap;}
-    .table-detail.empty{border-style:dashed;box-shadow:none;background:transparent;color:var(--text-4);}
-    .table-card{padding:24px;}
+    .grid-detail.empty{border-style:dashed;box-shadow:none;background:transparent;color:var(--text-4);}
+    .grid-card{padding:24px;}
     /* keep the whole 10×10 map inside the viewport height */
-    #table{gap:8px;max-width:max(360px,calc(100vh - 206px));margin:0 auto;}
+    #grid{gap:8px;max-width:max(360px,calc(100vh - 206px));margin:0 auto;}
     .key{max-width:max(360px,calc(100vh - 206px));margin-left:auto;margin-right:auto;}
     .cell{font-size:15px;border-radius:8px;}
     .key{margin-top:16px;}
@@ -187,9 +187,9 @@
     .side{gap:8px;}
     .info{margin-top:-4px;}
     .counts .box{padding:8px 12px;}
-    .showbuttons .choice,.yearbuttons .choice{padding:7px;}
+    .sorttabs .tab,.rangetabs .tab{padding:7px;}
     #search{padding:7px 14px;}
-    .table-detail{height:90px;padding:10px 14px;}
+    .grid-detail{height:90px;padding:10px 14px;}
     .recent{padding:8px 12px;}
     .recent .result{padding:3px 0;}
   }
@@ -213,18 +213,18 @@
     <div class="box cold" id="coldBox" role="button" tabindex="0" aria-expanded="false"><b>ไม่เคยออกเลย</b><span class="numbers" id="coldNumbers">…</span></div>
   </div>
 
-  <div class="yearbuttons" role="tablist">
-    <button class="choice active" data-range="5">5 ปี</button>
-    <button class="choice" data-range="10">10 ปี</button>
-    <button class="choice" data-range="20">20 ปี</button>
+  <div class="rangetabs" role="tablist">
+    <button class="tab active" data-range="5">5 ปี</button>
+    <button class="tab" data-range="10">10 ปี</button>
+    <button class="tab" data-range="20">20 ปี</button>
   </div>
 
   <div class="controls">
     <input type="search" id="search" placeholder="ค้นเลข เช่น 14" inputmode="numeric" maxlength="2" autocomplete="off">
-    <div class="showbuttons" role="tablist">
-      <button class="choice active" data-sort="map">แผนผัง</button>
-      <button class="choice" data-sort="often">ความถี่</button>
-      <button class="choice" data-sort="number">เลข</button>
+    <div class="sorttabs" role="tablist">
+      <button class="tab active" data-sort="map">แผนผัง</button>
+      <button class="tab" data-sort="often">ความถี่</button>
+      <button class="tab" data-sort="number">เลข</button>
     </div>
   </div>
 
@@ -233,10 +233,10 @@
 </div>
 <main class="main">
 
-  <div class="table-card" id="tableCard">
-    <div id="table" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
+  <div class="grid-card" id="gridCard">
+    <div id="grid" role="grid" aria-label="ความถี่เลขท้าย 2 ตัว 00–99"></div>
     <div class="key"><span id="keyLow">0 ครั้ง</span><i class="level-0"></i><i class="level-1"></i><i class="level-2"></i><i class="level-3"></i><i class="level-4"></i><span id="keyHigh">–</span></div>
-    <div class="table-detail" id="tableDetail" hidden></div>
+    <div class="grid-detail" id="gridDetail" hidden></div>
   </div>
 
   <div id="list" hidden></div>
@@ -268,10 +268,10 @@ let currentShow = 'map';
 let chosenCell = null;
 let openDetail = null;
 const list = document.getElementById('list');
-const tableElement = document.getElementById('table');
-const tableDetail = document.getElementById('tableDetail');
+const gridEl = document.getElementById('grid');
+const gridDetail = document.getElementById('gridDetail');
 
-function localDateText(date) {
+function localISODate(date) {
   const year = String(date.getFullYear()).padStart(4, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -279,13 +279,13 @@ function localDateText(date) {
 }
 
 function chosenDraws() {
-  const limit = new Date();
-  limit.setFullYear(limit.getFullYear() - currentYears);
-  const limitText = localDateText(limit);
-  return allDraws.filter(([date]) => date >= limitText).sort((first, second) => first[0] < second[0] ? -1 : 1);
+  const cutoff = new Date();
+  cutoff.setFullYear(cutoff.getFullYear() - currentYears);
+  const cutoffISO = localISODate(cutoff);
+  return allDraws.filter(([date]) => date >= cutoffISO).sort((first, second) => first[0] < second[0] ? -1 : 1);
 }
 
-function switchDetail(number, dates) {
+function toggleDetail(number, dates) {
   const element = document.getElementById('detail-' + number);
   const row = element.previousElementSibling;
   if (openDetail && openDetail !== element) {
@@ -312,37 +312,37 @@ const boxPreview = () => bigScreen.matches ? 10 : 4;
 const boxData = { hotNumbers: [], coldNumbers: [] };
 const boxIsOpen = { hotNumbers: false, coldNumbers: false };
 
-function showBox(elementId, numbers, emptyText) {
+function renderBox(elementId, numbers, emptyText) {
   boxData[elementId] = numbers;
   const element = document.getElementById(elementId);
   if (!numbers.length) { element.textContent = emptyText; return; }
   const isOpen = boxIsOpen[elementId];
   const shown = isOpen ? numbers : numbers.slice(0, boxPreview());
   const rest = numbers.length - shown.length;
-  let text = '<span class="items">' + shown.map((number) => '<span class="item">' + number + '</span>').join(' ') + '</span>';
-  if (rest > 0) text += '<span class="more">+' + rest + ' แตะดูทั้งหมด</span>';
-  else if (isOpen && numbers.length > boxPreview()) text += '<span class="more">แตะเพื่อย่อ</span>';
-  element.innerHTML = text;
+  let html = '<span class="items">' + shown.map((number) => '<span class="item">' + number + '</span>').join(' ') + '</span>';
+  if (rest > 0) html += '<span class="more">+' + rest + ' แตะดูทั้งหมด</span>';
+  else if (isOpen && numbers.length > boxPreview()) html += '<span class="more">แตะเพื่อย่อ</span>';
+  element.innerHTML = html;
 }
 
 ['hotBox', 'coldBox'].forEach((boxId) => {
   const box = document.getElementById(boxId);
-  const switchBox = () => {
+  const toggleBox = () => {
     const numbersId = boxId === 'hotBox' ? 'hotNumbers' : 'coldNumbers';
     boxIsOpen[numbersId] = !boxIsOpen[numbersId];
     box.setAttribute('aria-expanded', String(boxIsOpen[numbersId]));
-    showBox(numbersId, boxData[numbersId], numbersId === 'hotNumbers' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
+    renderBox(numbersId, boxData[numbersId], numbersId === 'hotNumbers' ? '—' : 'ไม่มี (ออกครบทุกเลขแล้ว)');
   };
-  box.addEventListener('click', switchBox);
+  box.addEventListener('click', toggleBox);
   box.addEventListener('keydown', (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      switchBox();
+      toggleBox();
     }
   });
 });
 
-function showAll() {
+function render() {
   const latestElement = document.getElementById('latest');
   if (allDraws.length) {
     const last = allDraws[allDraws.length-1];
@@ -354,12 +354,12 @@ function showAll() {
   if (!allDraws.length) {
     document.getElementById('info').textContent = 'ไม่มีข้อมูลพร้อมใช้งาน';
     document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด';
-    showBox('hotNumbers', [], 'ไม่มีข้อมูล');
-    showBox('coldNumbers', [], 'ไม่มีข้อมูล');
-    tableElement.textContent = '';
+    renderBox('hotNumbers', [], 'ไม่มีข้อมูล');
+    renderBox('coldNumbers', [], 'ไม่มีข้อมูล');
+    gridEl.textContent = '';
     document.getElementById('recent').hidden = true;
-    tableDetail.hidden = true;
-    document.getElementById('tableCard').hidden = true;
+    gridDetail.hidden = true;
+    document.getElementById('gridCard').hidden = true;
     list.hidden = false;
     list.textContent = 'เชื่อมต่ออินเทอร์เน็ตแล้วลองใหม่';
     openDetail = null;
@@ -385,15 +385,15 @@ function showAll() {
   const hot = items.filter(([, count]) => count === largestCount && count > 0).map(([number]) => number);
   const cold = items.filter(([, count]) => count === 0).map(([number]) => number);
   document.getElementById('hotLabel').textContent = 'ออกบ่อยสุด · ' + largestCount + ' ครั้ง';
-  showBox('hotNumbers', hot, '—');
-  showBox('coldNumbers', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
+  renderBox('hotNumbers', hot, '—');
+  renderBox('coldNumbers', cold, 'ไม่มี (ออกครบทุกเลขแล้ว)');
 
   const showMap = currentShow === 'map';
-  document.getElementById('tableCard').hidden = !showMap;
+  document.getElementById('gridCard').hidden = !showMap;
   list.hidden = showMap;
-  if (!showMap) { chosenCell = null; tableDetail.hidden = true; }
+  if (!showMap) { chosenCell = null; gridDetail.hidden = true; }
   if (showMap) {
-    showTable(items.slice().sort((first, second) => first[0].localeCompare(second[0])), largestCount);
+    renderGrid(items.slice().sort((first, second) => first[0].localeCompare(second[0])), largestCount);
     list.innerHTML = '';
     openDetail = null;
     return;
@@ -403,7 +403,7 @@ function showAll() {
     ? items.slice().sort((first, second) => first[0].localeCompare(second[0]))
     : items.slice().sort((first, second) => second[1] - first[1] || first[0].localeCompare(second[0]));
 
-  const part = document.createDocumentFragment();
+  const frag = document.createDocumentFragment();
   let lastCount = null;
   openDetail = null;
   sorted.forEach(([number, count, dates]) => {
@@ -411,7 +411,7 @@ function showAll() {
       const label = document.createElement('div');
       label.className = 'group-label';
       label.textContent = count + ' ครั้ง' + (count === largestCount && count > 0 ? ' — ออกบ่อยสุด' : '') + (count === 0 ? ' — ไม่เคยออกเลย' : '');
-      part.appendChild(label);
+      frag.appendChild(label);
       lastCount = count;
     }
     const row = document.createElement('div');
@@ -423,43 +423,43 @@ function showAll() {
     row.setAttribute('aria-controls', 'detail-' + number);
     const percent = largestCount > 0 ? (count / largestCount * 100).toFixed(1) : 0;
     row.innerHTML = '<span class="number">' + number + '</span><div class="track"><div class="fill" style="width:' + percent + '%"></div></div><span class="count">' + count + '</span>';
-    row.addEventListener('click', () => switchDetail(number, dates));
+    row.addEventListener('click', () => toggleDetail(number, dates));
     row.addEventListener('keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault();
-        switchDetail(number, dates);
+        toggleDetail(number, dates);
       }
     });
-    part.appendChild(row);
+    frag.appendChild(row);
     const detail = document.createElement('div');
     detail.className = 'detail';
     detail.id = 'detail-' + number;
-    part.appendChild(detail);
+    frag.appendChild(detail);
   });
   list.innerHTML = '';
-  list.appendChild(part);
+  list.appendChild(frag);
 }
 
 function clearDetail() {
   if (bigScreen.matches && currentShow === 'map') {
-    tableDetail.className = 'table-detail empty';
-    tableDetail.textContent = 'แตะเลขในแผนผังเพื่อดูวันที่ที่เคยออก';
-    tableDetail.hidden = false;
+    gridDetail.className = 'grid-detail empty';
+    gridDetail.textContent = 'แตะเลขในแผนผังเพื่อดูวันที่ที่เคยออก';
+    gridDetail.hidden = false;
   } else {
-    tableDetail.className = 'table-detail';
-    tableDetail.hidden = true;
+    gridDetail.className = 'grid-detail';
+    gridDetail.hidden = true;
   }
 }
 function putDetail() {
-  if (bigScreen.matches) document.querySelector('.side').insertBefore(tableDetail, document.getElementById('recent'));
-  else document.getElementById('tableCard').appendChild(tableDetail);
+  if (bigScreen.matches) document.querySelector('.side').insertBefore(gridDetail, document.getElementById('recent'));
+  else document.getElementById('gridCard').appendChild(gridDetail);
   if (!chosenCell) clearDetail();
 }
-bigScreen.addEventListener('change', () => { putDetail(); showBox('hotNumbers', boxData.hotNumbers, '—'); showBox('coldNumbers', boxData.coldNumbers, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
+bigScreen.addEventListener('change', () => { putDetail(); renderBox('hotNumbers', boxData.hotNumbers, '—'); renderBox('coldNumbers', boxData.coldNumbers, 'ไม่มี (ออกครบทุกเลขแล้ว)'); });
 
-function showTable(items, largestCount) {
+function renderGrid(items, largestCount) {
   document.getElementById('keyHigh').textContent = largestCount + ' ครั้ง';
-  const part = document.createDocumentFragment();
+  const frag = document.createDocumentFragment();
   chosenCell = null;
   clearDetail();
   items.forEach(([number, count, dates]) => {
@@ -481,49 +481,49 @@ function showTable(items, largestCount) {
       if (chosenCell) chosenCell.classList.remove('chosen');
       cell.classList.add('chosen');
       chosenCell = cell;
-      tableDetail.className = 'table-detail';
-      tableDetail.innerHTML = '<b>' + number + '</b>ออก ' + count + ' ครั้ง' +
+      gridDetail.className = 'grid-detail';
+      gridDetail.innerHTML = '<b>' + number + '</b>ออก ' + count + ' ครั้ง' +
         (dates.length ? '<br>' + dates.slice().reverse().map(formatThaiDate).join(' · ') : ' ในช่วงที่เลือก');
-      tableDetail.hidden = false;
-      if (!bigScreen.matches) tableDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      gridDetail.hidden = false;
+      if (!bigScreen.matches) gridDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
-    part.appendChild(cell);
+    frag.appendChild(cell);
   });
-  tableElement.innerHTML = '';
-  tableElement.appendChild(part);
+  gridEl.innerHTML = '';
+  gridEl.appendChild(frag);
 }
 
 async function loadData() {
-  let content;
+  let payload;
   try {
-    const answer = await fetch('./draws.json');
-    if (!answer.ok) throw new Error('http ' + answer.status);
-    content = await answer.json();
-    if (!Array.isArray(content.draws) || content.draws.length === 0) throw new Error('bad shape');
+    const res = await fetch('./draws.json');
+    if (!res.ok) throw new Error('http ' + res.status);
+    payload = await res.json();
+    if (!Array.isArray(payload.draws) || payload.draws.length === 0) throw new Error('bad shape');
   } catch (problem) {
     document.getElementById('oldNote').classList.add('show');
-    content = EMPTY_DATA;
+    payload = EMPTY_DATA;
   }
-  allDraws = content.draws;
-  document.getElementById('sourceName').textContent = content.source || '-';
-  document.getElementById('lastChecked').textContent = content.lastChecked ? formatThaiCheckedDate(content.lastChecked) : '-';
-  showAll();
+  allDraws = payload.draws;
+  document.getElementById('sourceName').textContent = payload.source || '-';
+  document.getElementById('lastChecked').textContent = payload.lastChecked ? formatThaiCheckedDate(payload.lastChecked) : '-';
+  render();
 }
 
-document.querySelectorAll('.yearbuttons .choice').forEach((button) => {
+document.querySelectorAll('.rangetabs .tab').forEach((button) => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('.yearbuttons .choice').forEach((other) => other.classList.remove('active'));
+    document.querySelectorAll('.rangetabs .tab').forEach((other) => other.classList.remove('active'));
     button.classList.add('active');
     currentYears = Number(button.dataset.range);
-    showAll();
+    render();
   });
 });
-document.querySelectorAll('.showbuttons .choice').forEach((button) => {
+document.querySelectorAll('.sorttabs .tab').forEach((button) => {
   button.addEventListener('click', () => {
-    document.querySelectorAll('.showbuttons .choice').forEach((other) => other.classList.remove('active'));
+    document.querySelectorAll('.sorttabs .tab').forEach((other) => other.classList.remove('active'));
     button.classList.add('active');
     currentShow = button.dataset.sort;
-    showAll();
+    render();
   });
 });
 
@@ -531,7 +531,7 @@ function tryMove(text) {
   const digits = text.replace(/\D/g, '');
   if (digits.length === 0) return;
   const value = digits.length === 1 ? '0' + digits : digits.slice(0, 2);
-  const element = (currentShow === 'map' ? tableElement : list).querySelector('[data-number="' + value + '"]');
+  const element = (currentShow === 'map' ? gridEl : list).querySelector('[data-number="' + value + '"]');
   if (element) {
     element.scrollIntoView({ behavior: 'smooth', block: 'center' });
     element.classList.add('found');
@@ -550,9 +550,9 @@ if ('serviceWorker' in navigator) {
 // blocked, counter off), the bottom line simply leaves it out.
 async function loadVisits() {
   try {
-    const answer = await fetch('https://2digits.goatcounter.com/counter/TOTAL.json');
-    if (!answer.ok) return;
-    const data = await answer.json();
+    const res = await fetch('https://2digits.goatcounter.com/counter/TOTAL.json');
+    if (!res.ok) return;
+    const data = await res.json();
     const count = parseInt(String(data.count).replace(/\D/g, ''), 10);
     if (!Number.isFinite(count)) return;
     document.getElementById('visits').textContent = count.toLocaleString('en-US');

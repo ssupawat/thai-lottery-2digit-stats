@@ -8,23 +8,23 @@ from unittest.mock import patch
 
 
 SCRIPT_PATH = Path(__file__).parents[1] / "scripts" / "update_draws.py"
-plan = importlib.util.spec_from_file_location("update_draws", SCRIPT_PATH)
-update_draws = importlib.util.module_from_spec(plan)
-plan.loader.exec_module(update_draws)
+spec = importlib.util.spec_from_file_location("update_draws", SCRIPT_PATH)
+update_draws = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(update_draws)
 
 
-class TestAnswer:
-    def __init__(self, content):
-        self.content = content
+class FakeResponse:
+    def __init__(self, payload):
+        self.payload = payload
 
     def raise_for_status(self):
         return None
 
     def json(self):
-        return self.content
+        return self.payload
 
 
-def answer_content(value):
+def result_payload(value):
     return {
         "statusCode": 200,
         "status": True,
@@ -41,51 +41,51 @@ def answer_content(value):
     }
 
 
-class UpdateDrawsTest(unittest.TestCase):
-    def test_main_adds_missing_draw(self):
-        with tempfile.TemporaryDirectory() as folder:
-            path = Path(folder) / "draws.json"
-            path.write_text(
+class UpdateDrawsTests(unittest.TestCase):
+    def test_main_backfills_recent_draw(self):
+        with tempfile.TemporaryDirectory() as directory:
+            draws_path = Path(directory) / "draws.json"
+            draws_path.write_text(
                 json.dumps({"draws": [["2026-10-04", "12"]]}),
                 encoding="utf-8",
             )
 
-            def send(_address, json, timeout):
+            def post(_url, json, timeout):
                 if json["date"] == "05" and json["month"] == "10":
-                    return TestAnswer(answer_content("08"))
-                return TestAnswer({"status": True, "response": None})
+                    return FakeResponse(result_payload("08"))
+                return FakeResponse({"status": True, "response": None})
 
-            test_time = datetime(2026, 10, 6, 18, tzinfo=timezone.utc)
+            fake_now = datetime(2026, 10, 6, 18, tzinfo=timezone.utc)
             with (
-                patch.object(update_draws, "PATH", str(path)),
-                patch.object(update_draws, "bangkok_time", return_value=test_time),
-                patch.object(update_draws.requests, "post", side_effect=send),
+                patch.object(update_draws, "DRAWS_PATH", str(draws_path)),
+                patch.object(update_draws, "bangkok_now", return_value=fake_now),
+                patch.object(update_draws.requests, "post", side_effect=post),
             ):
                 update_draws.main()
 
-            content = json.loads(path.read_text(encoding="utf-8"))
-            self.assertIn(["2026-10-05", "08"], content["draws"])
-            self.assertEqual(content["updatedDisplay"], "5 ตุลาคม 2569")
+            payload = json.loads(draws_path.read_text(encoding="utf-8"))
+            self.assertIn(["2026-10-05", "08"], payload["draws"])
+            self.assertEqual(payload["updatedDisplay"], "5 ตุลาคม 2569")
 
-    def test_network_problem_stops_the_update(self):
-        with tempfile.TemporaryDirectory() as folder:
-            path = Path(folder) / "draws.json"
-            path.write_text(json.dumps({"draws": []}), encoding="utf-8")
-            test_time = datetime(2026, 10, 6, 18, tzinfo=timezone.utc)
+    def test_network_error_fails_the_update(self):
+        with tempfile.TemporaryDirectory() as directory:
+            draws_path = Path(directory) / "draws.json"
+            draws_path.write_text(json.dumps({"draws": []}), encoding="utf-8")
+            fake_now = datetime(2026, 10, 6, 18, tzinfo=timezone.utc)
 
             with (
-                patch.object(update_draws, "PATH", str(path)),
-                patch.object(update_draws, "bangkok_time", return_value=test_time),
+                patch.object(update_draws, "DRAWS_PATH", str(draws_path)),
+                patch.object(update_draws, "bangkok_now", return_value=fake_now),
                 patch.object(
                     update_draws.requests,
                     "post",
                     side_effect=update_draws.requests.RequestException("offline"),
                 ),
             ):
-                with self.assertRaises(SystemExit) as problem:
+                with self.assertRaises(SystemExit) as error:
                     update_draws.main()
 
-            self.assertEqual(problem.exception.code, 1)
+            self.assertEqual(error.exception.code, 1)
 
 
 if __name__ == "__main__":
